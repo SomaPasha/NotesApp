@@ -22,8 +22,8 @@ public class NoteListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_list);
-        toolbar = (MaterialToolbar) findViewById(R.id.note_list_toolbar);
-        setSupportActionBar(toolbar);
+        initToolBar();
+
     }
 
     @Override
@@ -36,13 +36,22 @@ public class NoteListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.create_note_item: {
-                Intent intent = new Intent(this, NoteEditActivity.class);
-                startActivity(intent);
+                openNoteScreen();
                 return true;
             }
             default: {
                 return super.onOptionsItemSelected(item);
             }
         }
+    }
+
+    private void openNoteScreen() {
+        Intent intent = new Intent(this, NoteEditActivity.class);
+        startActivity(intent);
+    }
+
+    private void initToolBar() {
+        toolbar = (MaterialToolbar) findViewById(R.id.note_list_toolbar);
+        setSupportActionBar(toolbar);
     }
 }
