@@ -11,8 +11,7 @@ public class NoteStructure {
     private String description;
     private Date date;
 
-    public NoteStructure(@Nullable Integer id, String head, String description, Date date) {
-        this.id = id;
+    public NoteStructure( String head, String description, Date date) {
         this.head = head;
         this.description = description;
         this.date = date;

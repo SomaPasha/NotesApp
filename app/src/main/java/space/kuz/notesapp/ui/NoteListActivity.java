@@ -13,15 +13,23 @@ import android.widget.Toolbar;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
+import java.util.Date;
+
 import space.kuz.notesapp.R;
+import space.kuz.notesapp.domain.NoteStructure;
+import space.kuz.notesapp.domain.NotesRepository;
+import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
 public class NoteListActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
+
+    private NotesRepository notesRepository = new NotesRepositoryImplementation();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_list);
+        createTestNotesRepository();
         initToolBar();
 
     }
@@ -48,6 +56,20 @@ public class NoteListActivity extends AppCompatActivity {
     private void openNoteScreen() {
         Intent intent = new Intent(this, NoteEditActivity.class);
         startActivity(intent);
+    }
+
+    private void createTestNotesRepository() {
+        notesRepository.createNote(new NoteStructure("Заметка № 1", "Пойти в учить", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 2", "Пойти в школу", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 3", "Пойти на работу", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 4", "Пойти найти друга", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 5", "Пойти играть в баскетбол", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 6", "Пойти выучить английский", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 7", "Сходить в отпуск", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 8", "Найти себя", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 9", "Не переставать верить в себя", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 10", "Не переставать верить в других", new Date()));
+
     }
 
     private void initToolBar() {
