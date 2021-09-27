@@ -16,7 +16,7 @@ import space.kuz.notesapp.domain.NoteStructure;
 
 public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     private List<NoteStructure> data = new ArrayList<>();
-
+    private onItemClickListener listener=null;
 
     public void setData(List<NoteStructure> data) {
         this.data = data;
@@ -33,6 +33,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         NoteStructure note = getItem(position);
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(note));
         holder.headTextView.setText(note.getHead());
         holder.descriptionTextView.setText(note.getDescription());
         holder.dataTextView.setText(note.getDate().toString());
@@ -45,5 +46,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public void setOnItemClickListener(onItemClickListener listener) {
+        this.listener=listener;
+    }
+
+    public interface onItemClickListener{
+        void onItemClick(NoteStructure item);
     }
 }

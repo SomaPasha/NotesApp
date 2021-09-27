@@ -38,8 +38,6 @@ public class NoteListActivity extends AppCompatActivity {
         initRecyclerView();
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_note_list, menu);
@@ -94,5 +92,11 @@ public class NoteListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager( new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         adapter.setData(notesRepository.getNotes());
+        adapter.setOnItemClickListener(this::onItemClick);
     }
+
+    private void onItemClick(NoteStructure item) {
+        openNoteScreen();
+    }
+
 }
