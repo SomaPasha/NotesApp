@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import space.kuz.notesapp.R;
 
-public class NodeEditActivity extends AppCompatActivity {
+public class NoteEditActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_node_edit);
+        setContentView(R.layout.activity_note_edit);
     }
 }

@@ -1,4 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">NotesApp</string>
     <string name="create_note">Create note</string>
 </resources>
