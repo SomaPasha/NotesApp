@@ -1,17 +1,17 @@
-package space.kuz.notesapp;
+package space.kuz.notesapp.domain;
 
 import androidx.annotation.Nullable;
 
 import java.util.Date;
 
-public class StructureNote {
+public class NoteStructure {
     @Nullable
     private Integer id;
     private String head;
     private String description;
     private Date date;
 
-    public StructureNote(@Nullable Integer id, String head, String description, Date date) {
+    public NoteStructure(@Nullable Integer id, String head, String description, Date date) {
         this.id = id;
         this.head = head;
         this.description = description;
