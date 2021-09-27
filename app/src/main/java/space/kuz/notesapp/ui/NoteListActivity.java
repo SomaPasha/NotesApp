@@ -3,6 +3,9 @@ package space.kuz.notesapp.ui;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,8 +25,9 @@ import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
 public class NoteListActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
-
+    private RecyclerView recyclerView;
     private NotesRepository notesRepository = new NotesRepositoryImplementation();
+    private NotesAdapter adapter = new NotesAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +35,10 @@ public class NoteListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_note_list);
         createTestNotesRepository();
         initToolBar();
-
+        initRecyclerView();
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,11 +75,24 @@ public class NoteListActivity extends AppCompatActivity {
         notesRepository.createNote(new NoteStructure("Заметка № 8", "Найти себя", new Date()));
         notesRepository.createNote(new NoteStructure("Заметка № 9", "Не переставать верить в себя", new Date()));
         notesRepository.createNote(new NoteStructure("Заметка № 10", "Не переставать верить в других", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 11", "Найти себя", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 12", "Не переставать верить в себя", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 13", "Не переставать верить в других", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 14", "Найти себя", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 15", "Не переставать верить в себя", new Date()));
+        notesRepository.createNote(new NoteStructure("Заметка № 16", "Не переставать верить в других", new Date()));
 
     }
 
     private void initToolBar() {
         toolbar = (MaterialToolbar) findViewById(R.id.note_list_toolbar);
         setSupportActionBar(toolbar);
+    }
+
+    private void initRecyclerView() {
+        recyclerView = (RecyclerView)findViewById(R.id.recycler_view_notes);
+        recyclerView.setLayoutManager( new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        adapter.setData(notesRepository.getNotes());
     }
 }
