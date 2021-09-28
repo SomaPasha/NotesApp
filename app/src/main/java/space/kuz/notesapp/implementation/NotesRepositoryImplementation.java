@@ -41,7 +41,7 @@ public class NotesRepositoryImplementation implements NotesRepository {
     public boolean updateNote(Integer id, NoteStructure note) {
         deleteNote(id);
         note.setId(id);
-        notesArr.add(id-1,note);
+        notesArr.add(id - 1, note);
         note.setDate(new Date());
         return true;
     }

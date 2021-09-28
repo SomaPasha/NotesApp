@@ -20,31 +20,19 @@ import space.kuz.notesapp.domain.NoteStructure;
 import static space.kuz.notesapp.CONSTANT.Constant.EDIT_NOTE;
 
 public class NoteEditActivity extends AppCompatActivity {
-     private MaterialToolbar toolbar;
-     private EditText headEditText;
-     private EditText descriptionEditText;
-     private NoteStructure noteStructure;
+    private MaterialToolbar toolbar;
+    private EditText headEditText;
+    private EditText descriptionEditText;
+    private NoteStructure noteStructure;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
         initToolBar();
+        getData();
         initEditText();
-        noteStructure =  transferInEditText(noteStructure);
     }
-
-    private NoteStructure transferInEditText(NoteStructure note) {
-        note = getIntent().getExtras().getParcelable(EDIT_NOTE);
-        headEditText.setText(note.getHead());
-        descriptionEditText.setText(note.getDescription());
-        return note;
-    }
-
-    private void initEditText() {
-        headEditText= findViewById(R.id.head_edit_text);
-        descriptionEditText =findViewById(R.id.description_edit_text);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,9 +44,7 @@ public class NoteEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_note_item: {
-                Intent intentResult = new Intent();
-                intentResult.putExtra(EDIT_NOTE, createNote());
-                setResult(RESULT_OK,intentResult);
+                passingDataBack();
                 finish();
                 return true;
             }
@@ -68,11 +54,17 @@ public class NoteEditActivity extends AppCompatActivity {
         }
     }
 
+    private void passingDataBack() {
+        Intent intentResult = new Intent();
+        intentResult.putExtra(EDIT_NOTE, createNote());
+        setResult(RESULT_OK, intentResult);
+    }
+
     private NoteStructure createNote() {
-        NoteStructure  noteNew = new NoteStructure(headEditText.getText().toString(),
-                                                descriptionEditText.getText().toString(),
-                                                new Date());
-         noteNew.setId(noteStructure.getId());
+        NoteStructure noteNew = new NoteStructure(headEditText.getText().toString(),
+                descriptionEditText.getText().toString(),
+                new Date());
+        noteNew.setId(noteStructure.getId());
         return noteNew;
     }
 
@@ -81,5 +73,18 @@ public class NoteEditActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
+    private void getData() {
+        noteStructure = getIntent().getExtras().getParcelable(EDIT_NOTE);
+    }
 
+    private void initEditText() {
+        headEditText = findViewById(R.id.head_edit_text);
+        descriptionEditText = findViewById(R.id.description_edit_text);
+        setTextInEditText();
+    }
+
+    private void setTextInEditText() {
+        headEditText.setText(noteStructure.getHead());
+        descriptionEditText.setText(noteStructure.getDescription());
+    }
 }

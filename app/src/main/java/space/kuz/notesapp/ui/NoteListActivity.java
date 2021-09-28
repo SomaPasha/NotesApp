@@ -39,17 +39,10 @@ public class NoteListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_list);
-        //createTestNotesRepository();
+        createTestNotesRepository();
         initToolBar();
         initRecyclerView();
         createDecoration();
-    }
-
-    private void createDecoration() {
-        DividerItemDecoration itemDecoration = new
-                DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
-        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
-        recyclerView.addItemDecoration(itemDecoration);
     }
 
     @Override
@@ -72,8 +65,6 @@ public class NoteListActivity extends AppCompatActivity {
     }
 
     private void openNoteScreen(NoteStructure note) {
-
-
         Intent intent = new Intent(this, NoteEditActivity.class);
         intent.putExtra(EDIT_NOTE, note);
         startActivityForResult(intent, REQUEST_CODE_NOTE_EDIT_ACTIVITY);
@@ -94,7 +85,6 @@ public class NoteListActivity extends AppCompatActivity {
             } else {
                 notesRepository.updateNote(noteNew.getId(), noteNew);
             }
-
             initRecyclerView();
         }
 
@@ -137,5 +127,11 @@ public class NoteListActivity extends AppCompatActivity {
         openNoteScreen(item);
     }
 
+    private void createDecoration() {
+        DividerItemDecoration itemDecoration =
+                new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
+        recyclerView.addItemDecoration(itemDecoration);
+    }
 
 }

@@ -18,6 +18,6 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
     }
     public TextView headTextView = itemView.findViewById(R.id.text_view_head);
     public TextView descriptionTextView = itemView.findViewById(R.id.text_view_description);
-    public TextView dataTextView    = itemView.findViewById(R.id.text_view_data);
+    public TextView dataTextView = itemView.findViewById(R.id.text_view_data);
 
 }
