@@ -13,13 +13,13 @@ public class NoteStructure  implements Parcelable {
     private Integer id;
     private String head;
     private String description;
-    private Date date;
+    private String date;
 
     public NoteStructure(){
 
     }
 
-    public NoteStructure( String head, String description, Date date) {
+    public NoteStructure( String head, String description, String date) {
         this.head = head;
         this.description = description;
         this.date = date;
@@ -33,6 +33,7 @@ public class NoteStructure  implements Parcelable {
         }
         head = in.readString();
         description = in.readString();
+        date = in.readString();
     }
 
     public static final Creator<NoteStructure> CREATOR = new Creator<NoteStructure>() {
@@ -72,11 +73,11 @@ public class NoteStructure  implements Parcelable {
         this.description = description;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -95,5 +96,6 @@ public class NoteStructure  implements Parcelable {
         }
         dest.writeString(head);
         dest.writeString(description);
+        dest.writeString(date);
     }
 }

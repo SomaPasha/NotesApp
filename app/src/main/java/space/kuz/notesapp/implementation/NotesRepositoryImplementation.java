@@ -42,7 +42,7 @@ public class NotesRepositoryImplementation implements NotesRepository {
         deleteNote(id);
         note.setId(id);
         notesArr.add(id - 1, note);
-        note.setDate(new Date());
+        //note.setDate(new Date());
         return true;
     }
 

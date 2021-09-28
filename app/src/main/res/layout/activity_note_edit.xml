@@ -34,4 +34,9 @@
         android:textSize="@dimen/description_text_size"
         android:hint="@string/description"
         />
+    <DatePicker
+        android:id="@+id/data_picket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 </LinearLayout>

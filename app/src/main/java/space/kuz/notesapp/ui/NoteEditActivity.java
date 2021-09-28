@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toolbar;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
-import java.util.Date;
+import java.util.Calendar;
 
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.NoteStructure;
@@ -24,15 +24,19 @@ public class NoteEditActivity extends AppCompatActivity {
     private EditText headEditText;
     private EditText descriptionEditText;
     private NoteStructure noteStructure;
+    private DatePicker datePicker;
+    private String dataSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
+        initDataPicker();
         initToolBar();
         getData();
         initEditText();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -54,6 +58,33 @@ public class NoteEditActivity extends AppCompatActivity {
         }
     }
 
+    private void initDataPicker() {
+        datePicker = findViewById(R.id.data_picket);
+        Calendar today = Calendar.getInstance();
+        int year = today.get(Calendar.YEAR);
+        int month = today.get(Calendar.MONTH);
+        int day = today.get(Calendar.DAY_OF_MONTH);
+        dataSave = modelData(day, month + 1, year);
+        datePicker.init(year, month,
+                day, (view, year1, monthOfYear, dayOfMonth) -> {
+                    dataSave = modelData(dayOfMonth, monthOfYear + 1, year1);
+                });
+    }
+
+    private String modelData(int day, int month, int year) {
+        return modelDayAndMonthData(day) + "." + modelDayAndMonthData(month) + "." + year + " года.";
+    }
+
+    private String modelDayAndMonthData(int day) {
+        if (day < 10) {
+            return "0" + day;
+        } else {
+            return "" + day;
+        }
+    }
+
+
+
     private void passingDataBack() {
         Intent intentResult = new Intent();
         intentResult.putExtra(EDIT_NOTE, createNote());
@@ -63,7 +94,7 @@ public class NoteEditActivity extends AppCompatActivity {
     private NoteStructure createNote() {
         NoteStructure noteNew = new NoteStructure(headEditText.getText().toString(),
                 descriptionEditText.getText().toString(),
-                new Date());
+                dataSave);
         noteNew.setId(noteStructure.getId());
         return noteNew;
     }
