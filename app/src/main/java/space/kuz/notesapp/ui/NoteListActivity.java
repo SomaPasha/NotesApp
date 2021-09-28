@@ -24,11 +24,16 @@ import space.kuz.notesapp.domain.NoteStructure;
 import space.kuz.notesapp.domain.NotesRepository;
 import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
+import static space.kuz.notesapp.CONSTANT.Constant.EDIT_NOTE;
+
 public class NoteListActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private RecyclerView recyclerView;
+    private  NoteStructure noteNull = new NoteStructure();
+    private  NoteStructure noteNew = new NoteStructure();
     private NotesRepository notesRepository = new NotesRepositoryImplementation();
     private NotesAdapter adapter = new NotesAdapter();
+    private static final int REQUEST_CODE_NOTE_EDIT_ACTIVITY= 88;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,14 @@ public class NoteListActivity extends AppCompatActivity {
         createTestNotesRepository();
         initToolBar();
         initRecyclerView();
+        createDecoration();
+    }
+
+    private void createDecoration() {
+        DividerItemDecoration itemDecoration = new
+                DividerItemDecoration(this,LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator,null));
+        recyclerView.addItemDecoration(itemDecoration);
     }
 
     @Override
@@ -49,7 +62,7 @@ public class NoteListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.create_note_item: {
-                openNoteScreen();
+                openNoteScreen(noteNull);
                 return true;
             }
             default: {
@@ -58,9 +71,27 @@ public class NoteListActivity extends AppCompatActivity {
         }
     }
 
-    private void openNoteScreen() {
+    private void openNoteScreen(NoteStructure note) {
         Intent intent = new Intent(this, NoteEditActivity.class);
-        startActivity(intent);
+        intent.putExtra(EDIT_NOTE,note);
+        startActivityForResult(intent,REQUEST_CODE_NOTE_EDIT_ACTIVITY);
+    }
+
+
+    protected void onActivityResult(int requestCode, int resultCode,  Intent data) {
+        if (requestCode != REQUEST_CODE_NOTE_EDIT_ACTIVITY){
+        super.onActivityResult(requestCode, resultCode, data);
+        return;
+        }
+        if(resultCode== RESULT_OK){
+            noteNew = data.getParcelableExtra(EDIT_NOTE);
+         //   notesRepository.createNote(new NoteStructure(noteNew.getHead(), noteNew.getDescription(), new Date()));
+            notesRepository.updateNote(noteNew.getId(), noteNew);
+
+            initRecyclerView();
+//            notesRepository.updateNote(noteNew.getId(),noteNew);
+        }
+
     }
 
     private void createTestNotesRepository() {
@@ -94,15 +125,11 @@ public class NoteListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         adapter.setData(notesRepository.getNotes());
         adapter.setOnItemClickListener(this::onItemClick);
-
-        DividerItemDecoration itemDecoration = new
-                DividerItemDecoration(this,LinearLayoutManager.VERTICAL);
-        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator,null));
-        recyclerView.addItemDecoration(itemDecoration);
     }
 
     private void onItemClick(NoteStructure item) {
-        openNoteScreen();
+        openNoteScreen(item);
     }
+
 
 }

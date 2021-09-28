@@ -3,6 +3,7 @@ package space.kuz.notesapp.implementation;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import space.kuz.notesapp.domain.NoteStructure;
@@ -40,7 +41,8 @@ public class NotesRepositoryImplementation implements NotesRepository {
     public boolean updateNote(Integer id, NoteStructure note) {
         deleteNote(id);
         note.setId(id);
-        notesArr.add(note);
+        notesArr.add(id-1,note);
+        note.setDate(new Date());
         return true;
     }
 
