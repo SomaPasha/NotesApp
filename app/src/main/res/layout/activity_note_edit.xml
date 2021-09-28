@@ -23,7 +23,7 @@
         android:id="@+id/head_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="36sp"
+        android:textSize="@dimen/head_text_size"
         android:textStyle="bold"
         android:hint="@string/title"
         />
@@ -31,7 +31,7 @@
         android:id="@+id/description_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="@dimen/description_text_size"
         android:hint="@string/description"
 
         />
