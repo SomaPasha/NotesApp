@@ -3,6 +3,7 @@ package space.kuz.notesapp.ui;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -93,6 +94,11 @@ public class NoteListActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         adapter.setData(notesRepository.getNotes());
         adapter.setOnItemClickListener(this::onItemClick);
+
+        DividerItemDecoration itemDecoration = new
+                DividerItemDecoration(this,LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator,null));
+        recyclerView.addItemDecoration(itemDecoration);
     }
 
     private void onItemClick(NoteStructure item) {
