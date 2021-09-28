@@ -36,7 +36,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
         holder.itemView.setOnClickListener(v -> listener.onItemClick(note));
         holder.headTextView.setText(note.getHead());
         holder.descriptionTextView.setText(note.getDescription());
-        holder.dataTextView.setText(note.getDate().toString());
+        holder.dataTextView.setText(note.getDate());
     }
 
     private NoteStructure getItem(Integer position){

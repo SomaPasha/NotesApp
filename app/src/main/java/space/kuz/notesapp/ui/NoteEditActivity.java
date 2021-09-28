@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -23,6 +24,7 @@ public class NoteEditActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private EditText headEditText;
     private EditText descriptionEditText;
+    private TextView dataTextView;
     private NoteStructure noteStructure;
     private DatePicker datePicker;
     private String dataSave;
@@ -111,11 +113,13 @@ public class NoteEditActivity extends AppCompatActivity {
     private void initEditText() {
         headEditText = findViewById(R.id.head_edit_text);
         descriptionEditText = findViewById(R.id.description_edit_text);
+        dataTextView =findViewById(R.id.data_text_view_create_note);
         setTextInEditText();
     }
 
     private void setTextInEditText() {
         headEditText.setText(noteStructure.getHead());
         descriptionEditText.setText(noteStructure.getDescription());
+        dataTextView.setText(dataTextView.getText()+noteStructure.getDate());
     }
 }

@@ -34,9 +34,29 @@
         android:textSize="@dimen/description_text_size"
         android:hint="@string/description"
         />
+    <TextView
+        android:id="@+id/data_text_view_create_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/data_text"
+        android:textSize="@dimen/old_data"
+        android:hint="@string/description"
+        />
+
+
+    <TextView
+        android:id="@+id/name_data_text_view_create_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/head_text_size"
+        android:text="@string/name_data_text"
+        android:textSize="@dimen/description_text_size"
+        android:hint="@string/description"
+        />
     <DatePicker
         android:id="@+id/data_picket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         />
+
 </LinearLayout>

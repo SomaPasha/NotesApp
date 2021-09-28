@@ -55,6 +55,7 @@ public class NoteListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.create_note_item: {
+                noteNull.setDate("");
                 openNoteScreen(noteNull);
                 return true;
             }
@@ -91,22 +92,22 @@ public class NoteListActivity extends AppCompatActivity {
     }
 
     private void createTestNotesRepository() {
-        notesRepository.createNote(new NoteStructure("Заметка № 1", "Пойти в учить", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 2", "Пойти в школу", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 3", "Пойти на работу", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 4", "Пойти найти друга", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 5", "Пойти играть в баскетбол", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 6", "Пойти выучить английский", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 7", "Сходить в отпуск", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 8", "Найти себя", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 9", "Не переставать верить в себя", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 10", "Не переставать верить в других", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 11", "Найти себя", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 12", "Не переставать верить в себя", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 13", "Не переставать верить в других", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 14", "Найти себя", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 15", "Не переставать верить в себя", "12.09.2012"));
-        notesRepository.createNote(new NoteStructure("Заметка № 16", "Не переставать верить в других", "12.09.2012"));
+        notesRepository.createNote(new NoteStructure("Заметка № 1", "Пойти в учить", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 2", "Пойти в школу", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 3", "Пойти на работу", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 4", "Пойти найти друга", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 5", "Пойти играть в баскетбол", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 6", "Пойти выучить английский", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 7", "Сходить в отпуск", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 8", "Найти себя", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 9", "Не переставать верить в себя", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 10", "Не переставать верить в других", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 11", "Найти себя", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 12", "Не переставать верить в себя", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 13", "Не переставать верить в других", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 14", "Найти себя", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 15", "Не переставать верить в себя", "12.09.2012 года."));
+        notesRepository.createNote(new NoteStructure("Заметка № 16", "Не переставать верить в других", "12.09.2012 года."));
 
     }
 
