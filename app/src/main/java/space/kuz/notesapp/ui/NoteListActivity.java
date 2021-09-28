@@ -39,7 +39,7 @@ public class NoteListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_list);
-        createTestNotesRepository();
+        //createTestNotesRepository();
         initToolBar();
         initRecyclerView();
         createDecoration();
