@@ -95,6 +95,5 @@ public class NoteStructure  implements Parcelable {
         }
         dest.writeString(head);
         dest.writeString(description);
-        dest.writeString(date.toString());
     }
 }
