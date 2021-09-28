@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.Calendar;
+import java.util.regex.Pattern;
 
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.NoteStructure;
@@ -25,6 +26,7 @@ public class NoteEditActivity extends AppCompatActivity {
     private EditText headEditText;
     private EditText descriptionEditText;
     private TextView dataTextView;
+    private TextView dataYearTextView ;
     private NoteStructure noteStructure;
     private DatePicker datePicker;
     private String dataSave;
@@ -62,6 +64,8 @@ public class NoteEditActivity extends AppCompatActivity {
 
     private void initDataPicker() {
         datePicker = findViewById(R.id.data_picket);
+         dataYearTextView = findViewById(R.id.data_text_year);
+
         Calendar today = Calendar.getInstance();
         int year = today.get(Calendar.YEAR);
         int month = today.get(Calendar.MONTH);
@@ -74,7 +78,9 @@ public class NoteEditActivity extends AppCompatActivity {
     }
 
     private String modelData(int day, int month, int year) {
-        return modelDayAndMonthData(day) + "." + modelDayAndMonthData(month) + "." + year + " года.";
+        String s = Pattern.compile(R.string.data_text+"").toString();
+
+        return modelDayAndMonthData(day) + "." + modelDayAndMonthData(month) + "." + year +  (String) dataYearTextView.getText();
     }
 
     private String modelDayAndMonthData(int day) {

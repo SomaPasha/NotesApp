@@ -5,4 +5,5 @@
     <string name="description">Description</string>
     <string name="data_text">"Past data: "</string>
     <string name="name_data_text">"Set date: "</string>
+    <string name="year_text">" year."</string>
 </resources>

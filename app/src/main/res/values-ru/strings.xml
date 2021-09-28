@@ -6,4 +6,5 @@
     <string name="description">Описание</string>
     <string name="data_text">"Прошлая дата: "</string>
     <string name="name_data_text">"Установите дату: "</string>
+    <string name="year_text">" года."</string>
 </resources>
