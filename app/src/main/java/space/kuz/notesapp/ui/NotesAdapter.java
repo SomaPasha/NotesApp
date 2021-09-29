@@ -3,7 +3,6 @@ package space.kuz.notesapp.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import space.kuz.notesapp.R;
-import space.kuz.notesapp.domain.NoteStructure;
+import space.kuz.notesapp.domain.Note;
 
 public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
-    private List<NoteStructure> data = new ArrayList<>();
+    private List<Note> data = new ArrayList<>();
     private onItemClickListener listener=null;
 
-    public void setData(List<NoteStructure> data) {
+    public void setData(List<Note> data) {
         this.data = data;
         notifyDataSetChanged();
     }
@@ -32,14 +31,14 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        NoteStructure note = getItem(position);
+        Note note = getItem(position);
         holder.itemView.setOnClickListener(v -> listener.onItemClick(note));
         holder.headTextView.setText(note.getHead());
         holder.descriptionTextView.setText(note.getDescription());
         holder.dataTextView.setText(note.getDate());
     }
 
-    private NoteStructure getItem(Integer position){
+    private Note getItem(Integer position){
         return  data.get(position);
     }
 
@@ -53,6 +52,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     }
 
     public interface onItemClickListener{
-        void onItemClick(NoteStructure item);
+        void onItemClick(Note item);
     }
 }

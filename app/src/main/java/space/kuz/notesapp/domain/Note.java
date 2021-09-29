@@ -2,49 +2,49 @@ package space.kuz.notesapp.domain;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.ContactsContract;
 
 import androidx.annotation.Nullable;
 
-import java.util.Date;
-
-public class NoteStructure  implements Parcelable {
+public class Note implements Parcelable {
     @Nullable
     private Integer id;
     private String head;
     private String description;
     private String date;
 
-    public NoteStructure(){
-
+    public Note() {
     }
 
-    public NoteStructure( String head, String description, String date) {
+    public Note(String head, String description, String date) {
         this.head = head;
         this.description = description;
         this.date = date;
     }
 
-    protected NoteStructure(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
+    protected Note(Parcel in) {
+        id = getOptIn(in);
         head = in.readString();
         description = in.readString();
         date = in.readString();
     }
 
-    public static final Creator<NoteStructure> CREATOR = new Creator<NoteStructure>() {
+    private Integer getOptIn(Parcel in) {
+        if (in.readByte() == 0) {
+            return null;
+        } else {
+            return in.readInt();
+        }
+    }
+
+    public static final Creator<Note> CREATOR = new Creator<Note>() {
         @Override
-        public NoteStructure createFromParcel(Parcel in) {
-            return new NoteStructure(in);
+        public Note createFromParcel(Parcel in) {
+            return new Note(in);
         }
 
         @Override
-        public NoteStructure[] newArray(int size) {
-            return new NoteStructure[size];
+        public Note[] newArray(int size) {
+            return new Note[size];
         }
     };
 
@@ -88,14 +88,18 @@ public class NoteStructure  implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        putOptInt(dest, id);
+        dest.writeString(head);
+        dest.writeString(description);
+        dest.writeString(date);
+    }
+
+    private void putOptInt(Parcel dest, Integer id) {
         if (id == null) {
             dest.writeByte((byte) 0);
         } else {
             dest.writeByte((byte) 1);
             dest.writeInt(id);
         }
-        dest.writeString(head);
-        dest.writeString(description);
-        dest.writeString(date);
     }
 }

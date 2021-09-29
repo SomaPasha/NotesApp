@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.regex.Pattern;
 
 import space.kuz.notesapp.R;
-import space.kuz.notesapp.domain.NoteStructure;
+import space.kuz.notesapp.domain.Note;
 
 import static space.kuz.notesapp.CONSTANT.Constant.EDIT_NOTE;
 
@@ -27,7 +27,7 @@ public class NoteEditActivity extends AppCompatActivity {
     private EditText descriptionEditText;
     private TextView dataTextView;
     private TextView dataYearTextView ;
-    private NoteStructure noteStructure;
+    private Note noteStructure;
     private DatePicker datePicker;
     private String dataSave;
 
@@ -52,7 +52,7 @@ public class NoteEditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save_note_item: {
-                passingDataBack();
+                passDataBack();
                 finish();
                 return true;
             }
@@ -71,20 +71,20 @@ public class NoteEditActivity extends AppCompatActivity {
         int month = today.get(Calendar.MONTH);
         int day = today.get(Calendar.DAY_OF_MONTH);
 
-        dataSave = modelData(day, month + 1, year);
+        dataSave = convertWriteData(day, month + 1, year);
         datePicker.init(year, month,
                 day, (view, year1, monthOfYear, dayOfMonth) -> {
-                    dataSave = modelData(dayOfMonth, monthOfYear + 1, year1);
+                    dataSave = convertWriteData(dayOfMonth, monthOfYear + 1, year1);
                 });
     }
 
-    private String modelData(int day, int month, int year) {
+    private String convertWriteData(int day, int month, int year) {
         String s = Pattern.compile(R.string.data_text+"").toString();
 
-        return modelDayAndMonthData(day) + "." + modelDayAndMonthData(month) + "." + year +  (String) dataYearTextView.getText();
+        return convertWriteDayAndMonthData(day) + "." + convertWriteDayAndMonthData(month) + "." + year +  (String) dataYearTextView.getText();
     }
 
-    private String modelDayAndMonthData(int day) {
+    private String convertWriteDayAndMonthData(int day) {
         if (day < 10) {
             return "0" + day;
         } else {
@@ -92,14 +92,14 @@ public class NoteEditActivity extends AppCompatActivity {
         }
     }
 
-    private void passingDataBack() {
+    private void passDataBack() {
         Intent intentResult = new Intent();
         intentResult.putExtra(EDIT_NOTE, createNote());
         setResult(RESULT_OK, intentResult);
     }
 
-    private NoteStructure createNote() {
-        NoteStructure noteNew = new NoteStructure(headEditText.getText().toString(),
+    private Note createNote() {
+        Note noteNew = new Note(headEditText.getText().toString(),
                 descriptionEditText.getText().toString(),
                 dataSave);
         noteNew.setId(noteStructure.getId());
