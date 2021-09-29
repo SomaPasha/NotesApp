@@ -25,17 +25,12 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     @NonNull
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
-        return new NoteViewHolder(view);
+        return new NoteViewHolder(parent,listener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
-        Note note = getItem(position);
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(note));
-        holder.headTextView.setText(note.getHead());
-        holder.descriptionTextView.setText(note.getDescription());
-        holder.dataTextView.setText(note.getDate());
+        holder.bind(getItem(position));
     }
 
     private Note getItem(Integer position){
