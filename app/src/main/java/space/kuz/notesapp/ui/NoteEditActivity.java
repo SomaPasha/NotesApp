@@ -64,12 +64,13 @@ public class NoteEditActivity extends AppCompatActivity {
 
     private void initDataPicker() {
         datePicker = findViewById(R.id.data_picket);
-         dataYearTextView = findViewById(R.id.data_text_year);
+        dataYearTextView = findViewById(R.id.data_text_year);
 
         Calendar today = Calendar.getInstance();
         int year = today.get(Calendar.YEAR);
         int month = today.get(Calendar.MONTH);
         int day = today.get(Calendar.DAY_OF_MONTH);
+
         dataSave = modelData(day, month + 1, year);
         datePicker.init(year, month,
                 day, (view, year1, monthOfYear, dayOfMonth) -> {
@@ -90,8 +91,6 @@ public class NoteEditActivity extends AppCompatActivity {
             return "" + day;
         }
     }
-
-
 
     private void passingDataBack() {
         Intent intentResult = new Intent();

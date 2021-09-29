@@ -15,7 +15,7 @@ public class NotesRepositoryImplementation implements NotesRepository {
 
     @Override
     public List<NoteStructure> getNotes() {
-        return new ArrayList<>(notesArr); // TODO
+        return new ArrayList<>(notesArr);
     }
 
     @Nullable
@@ -42,9 +42,7 @@ public class NotesRepositoryImplementation implements NotesRepository {
         deleteNote(id);
         note.setId(id);
         notesArr.add(id - 1, note);
-        //note.setDate(new Date());
         return true;
     }
-
 
 }

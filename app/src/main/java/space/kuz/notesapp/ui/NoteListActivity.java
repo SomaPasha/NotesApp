@@ -17,6 +17,16 @@ import android.widget.Toolbar;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Date;
 
 import space.kuz.notesapp.R;
@@ -25,6 +35,7 @@ import space.kuz.notesapp.domain.NotesRepository;
 import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
 import static space.kuz.notesapp.CONSTANT.Constant.EDIT_NOTE;
+//import static space.kuz.notesapp.CONSTANT.Constant.WRITE_TXT;
 
 public class NoteListActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
@@ -126,6 +137,64 @@ public class NoteListActivity extends AppCompatActivity {
 
     private void onItemClick(NoteStructure item) {
         openNoteScreen(item);
+      //  writeFile();
+       // readFile();
+    }
+
+    private void readFile() {
+        File  myFile = new File("txt5.txt");
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader( new FileReader(myFile));
+            String str="";
+            NoteStructure noteWrite =new NoteStructure();
+            int i=1;
+           while ((str=br.readLine()) !=null){
+               if(i==1){
+                   Integer strInt = Integer.valueOf(str);
+                   noteWrite.setId(strInt);
+               } else if (i==2){
+                   noteWrite.setHead(str);
+               } else if (i==3){
+                   noteWrite.setDescription(str);
+               }else if (i==4){
+                   noteWrite.setDate(str);
+                   i=0;
+               }
+               if (i==0){
+                 Integer j = noteWrite.getId();
+                  notesRepository.updateNote(noteWrite.getId() ,noteWrite);
+               }
+               i++;
+           }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeFile() {
+        File  myFile = new File("txt5.txt");
+        BufferedWriter bw = null;
+        try {
+            bw = new BufferedWriter( new FileWriter(myFile));
+        for (int i = 0; i <notesRepository.getNotes().size() ; i++) {
+            bw.write(notesRepository.getNotes().get(i).getId()+"");
+            bw.write("\n");
+            bw.write(notesRepository.getNotes().get(i).getHead());
+            bw.write("\n");
+            bw.write(notesRepository.getNotes().get(i).getDescription());
+            bw.write("\n");
+            bw.write(notesRepository.getNotes().get(i).getDate());
+            bw.write("\n");
+        }
+        bw.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void createDecoration() {
