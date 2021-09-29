@@ -10,6 +10,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -46,6 +49,7 @@ public class NoteListActivity extends AppCompatActivity {
         initToolBar();
         initRecyclerView();
         createDecoration();
+
     }
 
     @Override
@@ -128,7 +132,8 @@ public class NoteListActivity extends AppCompatActivity {
     }
 
     private void onItemClick(Note item) {
-        openNoteScreen(item);
+       // Integer i =  item.getId();
+      openNoteScreen(item);
       //  writeFile();
        // readFile();
     }
