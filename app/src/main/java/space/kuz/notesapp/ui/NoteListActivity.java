@@ -2,6 +2,7 @@ package space.kuz.notesapp.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.domain.NotesRepository;
+import space.kuz.notesapp.fragment.EditNoteFragment;
 import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
 import static space.kuz.notesapp.CONSTANT.Constant.EDIT_NOTE;
@@ -45,11 +47,10 @@ public class NoteListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_list);
-        createTestNotesRepository();
-        initToolBar();
-        initRecyclerView();
-        createDecoration();
-
+       createTestNotesRepository();
+    //    initToolBar();
+      //  initRecyclerView();
+       //createDecoration();
     }
 
     @Override
@@ -72,11 +73,16 @@ public class NoteListActivity extends AppCompatActivity {
         }
     }
 
-    private void openNoteScreen(Note note) {
-        Intent intent = new Intent(this, NoteEditActivity.class);
-        intent.putExtra(EDIT_NOTE, note);
-        startActivityForResult(intent, REQUEST_CODE_NOTE_EDIT_ACTIVITY);
 
+    private void openNoteScreen(Note note) {
+      //  Intent intent = new Intent(this, NoteEditActivity.class);
+       // intent.putExtra(EDIT_NOTE, note);
+     //   startActivityForResult(intent, REQUEST_CODE_NOTE_EDIT_ACTIVITY);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_list, new EditNoteFragment())
+                .addToBackStack(null)
+                .commit();
     }
 
 
