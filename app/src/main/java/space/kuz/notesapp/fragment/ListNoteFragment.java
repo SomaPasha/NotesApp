@@ -19,12 +19,14 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import space.kuz.notesapp.R;
+import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.ui.MainActivity;
 
 public class ListNoteFragment extends Fragment {
     private Controller controller;
     private MaterialToolbar toolbar;
-
+    static final String ARG_NOTE_LIST = "NOTE_LIST";
+    Note note;
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -71,7 +73,17 @@ public class ListNoteFragment extends Fragment {
      //   if (savedInstanceState!= null){
     //        position = savedInstanceState.getInt(CURRENT_NOTE);
    //     }
-
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            note = bundle.getParcelable(ARG_NOTE_LIST);
+            if (note.getId() == 0) {
+                ((MainActivity)requireActivity()).createNoteActivity(note);
+            } else {
+                ((MainActivity)requireActivity()).updateNoteActivity(note);
+            }
+            ((MainActivity)requireActivity()).initRecyclerView();
+           // ((MainActivity)requireActivity()).
+        }
         toolbar = (MaterialToolbar) view.findViewById(R.id.note_list_toolbar);
         ((MainActivity)requireActivity()).setSupportActionBar(toolbar);
         controller.openListNote();
@@ -90,9 +102,17 @@ public class ListNoteFragment extends Fragment {
         void openListNote();
     }
 
+    public static ListNoteFragment newInstance(Note note){
+        ListNoteFragment fragment = new ListNoteFragment();
+        Bundle  bundle = new Bundle();
+        bundle.putParcelable(ARG_NOTE_LIST,note);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onDestroy() {
-    //  controller = null;
+     controller = null;
         super.onDestroy();
     }
 

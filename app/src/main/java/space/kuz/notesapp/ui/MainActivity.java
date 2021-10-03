@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
     private EditText headEditText;
     private EditText descriptionEditText;
     private TextView dataTextView;
+    private Note noteStructure;
     private TextView dataYearTextView ;
     private DatePicker datePicker;
     private String dataSave;
@@ -88,7 +89,38 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
     }
 
     }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.create_note_item: {
+                noteNull.setDate("");
+                openNoteScreen(noteNull);
+                positioN = -1;
+                return true;
+            }
+            case R.id.save_note_item: {
+              //  passDataBack();
+                getSupportFragmentManager().popBackStack();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.fragment_list, ListNoteFragment.newInstance(createNote()))
+                        .commit();
 
+              //  finish();
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+    }
+    private Note createNote() {
+        Note noteNew = new Note(headEditText.getText().toString(),
+                descriptionEditText.getText().toString(),
+                dataSave);
+        noteNew.setId(positioN+1);
+        return noteNew;
+    }
     @Override
     public void openListNote(){
         initRecyclerView();
@@ -103,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
 
 
 
-    private void openNoteScreen(Note note) {
+    public void openNoteScreen(Note note) {
          if (getResources().getConfiguration().orientation ==Configuration.ORIENTATION_LANDSCAPE){
              getSupportFragmentManager().popBackStack();
              FragmentManager fragmentManager = getSupportFragmentManager();
@@ -116,21 +148,27 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
 
 
          } else {
-             Toast.makeText(this, "Вторая", Toast.LENGTH_SHORT).show();
+
              getSupportFragmentManager()
                      .beginTransaction()
                      .add(R.id.fragment_edit, EditNoteFragment.newInstance(note))
                      .addToBackStack(null)
                      .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                      .commit();
-
          }
 
 
     }
 
 
+public void createNoteActivity (Note note ){
+        notesRepository.createNote(new Note(note.getHead(), note.getDescription(), note.getDate()));
 
+}
+    public void updateNoteActivity (Note note ){
+        notesRepository.updateNote(note.getId(), note);
+
+    }
     private void createTestNotesRepository() {
         notesRepository.createNote(new Note("Заметка № 1", "Пойти в учить", "12.09.2012 года."));
         notesRepository.createNote(new Note("Заметка № 2", "Пойти в школу", "12.09.2012 года."));

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -28,8 +29,7 @@ public class EditNoteFragment  extends Fragment {
     MaterialToolbar toolbar;
     private EditNoteFragment.Controller controller;
     static final String ARG_NOTE = "NOTE";
-   //private static int position = 0;
-    //private static final   String CURRENT_NOTE= "CURRENT_NOTE";
+    private Note noteNull = new Note();
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -51,11 +51,6 @@ public class EditNoteFragment  extends Fragment {
       setRetainInstance(true);
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        //outState.putInt(CURRENT_NOTE, position);
-        super.onSaveInstanceState(outState);
-    }
 
     @Nullable
     @Override
@@ -99,7 +94,6 @@ public class EditNoteFragment  extends Fragment {
         Bundle  bundle = new Bundle();
         bundle.putParcelable(ARG_NOTE,note);
         fragment.setArguments(bundle);
-      //  position = note.getId();
         return fragment;
     }
 
