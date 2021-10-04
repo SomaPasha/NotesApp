@@ -6,4 +6,7 @@
     <string name="data_text">"Past data: "</string>
     <string name="name_data_text">"Set date: "</string>
     <string name="year_text">" year."</string>
+    <string name="menu_setting">Setting</string>
+    <string name="nav_name">Pasha</string>
+    <string name="nav_surname">Kuznetsov</string>
 </resources>

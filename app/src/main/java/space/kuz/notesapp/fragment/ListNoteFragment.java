@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -19,11 +20,14 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.appbar.MaterialToolbar;
 
 import space.kuz.notesapp.R;
+import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.ui.MainActivity;
 
-public class ListNoteFragment extends Fragment {
+public class ListNoteFragment extends Fragment  {
     private Controller controller;
     private MaterialToolbar toolbar;
+    private static final String ARG_NOTE_LIST = "NOTE_LIST";
+    private Note note;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -52,7 +56,6 @@ public class ListNoteFragment extends Fragment {
 
 
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,25 +64,29 @@ public class ListNoteFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-     //   if (savedInstanceState!= null){
-    //        position = savedInstanceState.getInt(CURRENT_NOTE);
-   //     }
-
-        toolbar = (MaterialToolbar) view.findViewById(R.id.note_list_toolbar);
-        ((MainActivity)requireActivity()).setSupportActionBar(toolbar);
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            note = bundle.getParcelable(ARG_NOTE_LIST);
+            saveNote();
+        }
+        initToolbar(view);
         controller.openListNote();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    private void saveNote() {
+        if (note.getId() == 0) {
+            ((MainActivity)requireActivity()).createNoteActivity(note);
+        } else {
+            ((MainActivity)requireActivity()).updateNoteActivity(note);
+        }
+        ((MainActivity)requireActivity()).initRecyclerView();
+    }
+
+    private void initToolbar(View view) {
+        toolbar = (MaterialToolbar) view.findViewById(R.id.note_list_toolbar);
+        ((MainActivity)requireActivity()).setSupportActionBar(toolbar);
     }
 
     private  Controller getController(){
@@ -90,9 +97,17 @@ public class ListNoteFragment extends Fragment {
         void openListNote();
     }
 
+    public static ListNoteFragment newInstance(Note note){
+        ListNoteFragment fragment = new ListNoteFragment();
+        Bundle  bundle = new Bundle();
+        bundle.putParcelable(ARG_NOTE_LIST,note);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
     public void onDestroy() {
-    //  controller = null;
+     controller = null;
         super.onDestroy();
     }
 

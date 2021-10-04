@@ -7,4 +7,7 @@
     <string name="data_text">"Прошлая дата: "</string>
     <string name="name_data_text">"Установите дату: "</string>
     <string name="year_text">" года."</string>
+    <string name="menu_setting">Настройки </string>
+    <string name="nav_name">Павел</string>
+    <string name="nav_surname">Кузнецов</string>
 </resources>

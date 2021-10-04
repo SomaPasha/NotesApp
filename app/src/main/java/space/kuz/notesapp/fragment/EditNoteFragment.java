@@ -5,31 +5,37 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.navigation.NavigationView;
 
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.ui.MainActivity;
 
-public class EditNoteFragment  extends Fragment {
- private EditText headEditText;
+public class EditNoteFragment  extends Fragment  {
+    private EditText headEditText;
     private EditText descriptionEditText;
     private TextView dataTextView;
-    Note note;
-    MaterialToolbar toolbar;
+    private Note note;
+    private MaterialToolbar toolbar;
     private EditNoteFragment.Controller controller;
-    static final String ARG_NOTE = "NOTE";
-   //private static int position = 0;
-    //private static final   String CURRENT_NOTE= "CURRENT_NOTE";
+    private static final String ARG_NOTE = "NOTE";
+    private Note noteNull = new Note();
+
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -40,10 +46,6 @@ public class EditNoteFragment  extends Fragment {
         }
     }
 
-
-
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,11 +53,6 @@ public class EditNoteFragment  extends Fragment {
       setRetainInstance(true);
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        //outState.putInt(CURRENT_NOTE, position);
-        super.onSaveInstanceState(outState);
-    }
 
     @Nullable
     @Override
@@ -66,20 +63,32 @@ public class EditNoteFragment  extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initView(view);
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            putAndSetView(bundle);
+               }
+        initToolbar(view);
+        controller.openEditNote();
+
+    }
+
+    private void initToolbar(View view) {
+        toolbar = (MaterialToolbar) view.findViewById(R.id.note_edit_toolbar);
+        ((MainActivity)requireActivity()).setSupportActionBar(toolbar);
+    }
+
+    private void putAndSetView(Bundle bundle) {
+        note = bundle.getParcelable(ARG_NOTE);
+        headEditText.setText(note.getHead());
+        descriptionEditText.setText(note.getDescription());
+        dataTextView.setText(dataTextView.getText()+note.getDate());
+    }
+
+    private void initView(View view) {
         headEditText = view.findViewById(R.id.head_edit_text);
         descriptionEditText = view.findViewById(R.id.description_edit_text);
         dataTextView = view.findViewById(R.id.data_text_view_create_note);
-        Bundle bundle = getArguments();
-        if(bundle!=null){
-            note = bundle.getParcelable(ARG_NOTE);
-            headEditText.setText(note.getHead());
-            descriptionEditText.setText(note.getDescription());
-            dataTextView.setText(dataTextView.getText()+note.getDate());
-               }
-        toolbar = (MaterialToolbar) view.findViewById(R.id.note_edit_toolbar);
-        ((MainActivity)requireActivity()).setSupportActionBar(toolbar);
-        controller.openEditNote();
-
     }
 
     @Override
@@ -99,7 +108,6 @@ public class EditNoteFragment  extends Fragment {
         Bundle  bundle = new Bundle();
         bundle.putParcelable(ARG_NOTE,note);
         fragment.setArguments(bundle);
-      //  position = note.getId();
         return fragment;
     }
 
