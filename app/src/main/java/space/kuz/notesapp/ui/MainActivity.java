@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
     private Note noteNew = new Note();
     private NotesRepository notesRepository = new NotesRepositoryImplementation();
     private NotesAdapter adapter = new NotesAdapter();
-
     private EditText headEditText;
     private EditText descriptionEditText;
     private TextView dataTextView;
