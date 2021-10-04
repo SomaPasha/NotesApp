@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -22,11 +23,12 @@ import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.ui.MainActivity;
 
-public class ListNoteFragment extends Fragment {
+public class ListNoteFragment extends Fragment  {
     private Controller controller;
     private MaterialToolbar toolbar;
-    static final String ARG_NOTE_LIST = "NOTE_LIST";
-    Note note;
+    private static final String ARG_NOTE_LIST = "NOTE_LIST";
+    private Note note;
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -51,6 +53,8 @@ public class ListNoteFragment extends Fragment {
         inflater.inflate(R.menu.menu_note_list, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
 
     @Nullable
     @Override

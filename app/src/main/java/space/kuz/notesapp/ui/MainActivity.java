@@ -2,17 +2,26 @@ package space.kuz.notesapp.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Adapter;
 import android.widget.DatePicker;
@@ -21,6 +30,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.internal.NavigationMenu;
+import com.google.android.material.internal.NavigationMenuItemView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -37,17 +49,20 @@ import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.domain.NotesRepository;
 import space.kuz.notesapp.fragment.EditNoteFragment;
 import space.kuz.notesapp.fragment.ListNoteFragment;
+import space.kuz.notesapp.fragment.SettingFragment;
 import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
 import static space.kuz.notesapp.CONSTANT.Constant.EDIT_NOTE;
 import static space.kuz.notesapp.CONSTANT.Constant.positioN;
 
-public class MainActivity extends AppCompatActivity implements ListNoteFragment.Controller, EditNoteFragment.Controller {
+@SuppressLint("RestrictedApi")
+public class MainActivity extends AppCompatActivity implements ListNoteFragment.Controller,
+        EditNoteFragment.Controller,  NavigationView.OnNavigationItemSelectedListener
+         {
     private RecyclerView recyclerView;
     private Note noteNull = new Note();
     private Note noteNew = new Note();
     private NotesRepository notesRepository = new NotesRepositoryImplementation();
-    ;
     private NotesAdapter adapter = new NotesAdapter();
 
     private EditText headEditText;
@@ -59,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
 
     private int position = 0;
 
+    private AppBarConfiguration mAppBarConfiguration;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +85,8 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
             oneOpenFragment();
         }
 
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
     }
 
     @Override
@@ -89,6 +107,17 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
             }
         }
     }
+
+
+             @SuppressWarnings("StatemenWithEmplyBody")
+             @Override
+             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                 int id = item.getItemId();
+                 if(id == R.id.nav_setting){
+                     Toast.makeText(this, "dsfg", Toast.LENGTH_SHORT).show();
+                 }
+                 return true;
+             }
 
     @Override
     public void openListNote() {

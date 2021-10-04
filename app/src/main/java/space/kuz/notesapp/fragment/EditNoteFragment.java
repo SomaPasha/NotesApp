@@ -10,18 +10,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.navigation.NavigationView;
 
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.ui.MainActivity;
 
-public class EditNoteFragment  extends Fragment {
+public class EditNoteFragment  extends Fragment  {
     private EditText headEditText;
     private EditText descriptionEditText;
     private TextView dataTextView;
@@ -30,6 +34,7 @@ public class EditNoteFragment  extends Fragment {
     private EditNoteFragment.Controller controller;
     private static final String ARG_NOTE = "NOTE";
     private Note noteNull = new Note();
+
 
     @Override
     public void onAttach(@NonNull Context context) {
