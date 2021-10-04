@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
        // notesRepository = new NotesRepositoryImplementation();
        // NotesAdapter adapter = new NotesAdapter();
         createTestNotesRepository();
+        if(savedInstanceState==null) {
        if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -79,13 +80,13 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
 
         } else {
 
-         //  Toast.makeText(this, "первая портретная ориентация", Toast.LENGTH_SHORT).show();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.fragment_list, new ListNoteFragment())
-                 //   .addToBackStack(null)
-                    .commit();
-
+                    //  Toast.makeText(this, "первая портретная ориентация", Toast.LENGTH_SHORT).show();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.fragment_list, new ListNoteFragment())
+                          //  .addToBackStack(null)
+                            .commit();
+                }
     }
 
     }
@@ -99,14 +100,12 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
                 return true;
             }
             case R.id.save_note_item: {
-              //  passDataBack();
                 getSupportFragmentManager().popBackStack();
-                getSupportFragmentManager()
+               getSupportFragmentManager()
                         .beginTransaction()
                         .add(R.id.fragment_list, ListNoteFragment.newInstance(createNote()))
+              //          .addToBackStack(null)
                         .commit();
-
-              //  finish();
                 return true;
             }
             default: {
@@ -124,8 +123,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
     @Override
     public void openListNote(){
         initRecyclerView();
-        createDecoration();
-
      }
     @Override
     public void openEditNote(){
