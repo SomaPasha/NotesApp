@@ -22,14 +22,15 @@ import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.ui.MainActivity;
 
 public class EditNoteFragment  extends Fragment {
- private EditText headEditText;
+    private EditText headEditText;
     private EditText descriptionEditText;
     private TextView dataTextView;
-    Note note;
-    MaterialToolbar toolbar;
+    private Note note;
+    private MaterialToolbar toolbar;
     private EditNoteFragment.Controller controller;
-    static final String ARG_NOTE = "NOTE";
+    private static final String ARG_NOTE = "NOTE";
     private Note noteNull = new Note();
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -39,10 +40,6 @@ public class EditNoteFragment  extends Fragment {
             throw  new IllegalStateException("Activity must implement EditNoteFragment.Controller");
         }
     }
-
-
-
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,20 +58,32 @@ public class EditNoteFragment  extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initView(view);
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            putAndSetView(bundle);
+               }
+        initToolbar(view);
+        controller.openEditNote();
+
+    }
+
+    private void initToolbar(View view) {
+        toolbar = (MaterialToolbar) view.findViewById(R.id.note_edit_toolbar);
+        ((MainActivity)requireActivity()).setSupportActionBar(toolbar);
+    }
+
+    private void putAndSetView(Bundle bundle) {
+        note = bundle.getParcelable(ARG_NOTE);
+        headEditText.setText(note.getHead());
+        descriptionEditText.setText(note.getDescription());
+        dataTextView.setText(dataTextView.getText()+note.getDate());
+    }
+
+    private void initView(View view) {
         headEditText = view.findViewById(R.id.head_edit_text);
         descriptionEditText = view.findViewById(R.id.description_edit_text);
         dataTextView = view.findViewById(R.id.data_text_view_create_note);
-        Bundle bundle = getArguments();
-        if(bundle!=null){
-            note = bundle.getParcelable(ARG_NOTE);
-            headEditText.setText(note.getHead());
-            descriptionEditText.setText(note.getDescription());
-            dataTextView.setText(dataTextView.getText()+note.getDate());
-               }
-        toolbar = (MaterialToolbar) view.findViewById(R.id.note_edit_toolbar);
-        ((MainActivity)requireActivity()).setSupportActionBar(toolbar);
-        controller.openEditNote();
-
     }
 
     @Override

@@ -46,50 +46,31 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
     private RecyclerView recyclerView;
     private Note noteNull = new Note();
     private Note noteNew = new Note();
-    private NotesRepository notesRepository =  new NotesRepositoryImplementation();;
+    private NotesRepository notesRepository = new NotesRepositoryImplementation();
+    ;
     private NotesAdapter adapter = new NotesAdapter();
-    private static final int REQUEST_CODE_NOTE_EDIT_ACTIVITY = 88;
 
     private EditText headEditText;
     private EditText descriptionEditText;
     private TextView dataTextView;
-    private Note noteStructure;
-    private TextView dataYearTextView ;
+    private TextView dataYearTextView;
     private DatePicker datePicker;
     private String dataSave;
 
     private int position = 0;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //if(positioN!=0){
-          //  getSupportFragmentManager().popBackStack();
-       // }
-       // notesRepository = new NotesRepositoryImplementation();
-       // NotesAdapter adapter = new NotesAdapter();
         createTestNotesRepository();
-        if(savedInstanceState==null) {
-       if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_edit, EditNoteFragment.newInstance(notesRepository.getNotes().get(positioN)))
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .addToBackStack(null)
-                    .commit();
 
-        } else {
-
-                    //  Toast.makeText(this, "первая портретная ориентация", Toast.LENGTH_SHORT).show();
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.fragment_list, new ListNoteFragment())
-                          //  .addToBackStack(null)
-                            .commit();
-                }
-    }
+        if (savedInstanceState == null) {
+            oneOpenFragment();
+        }
 
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -100,12 +81,7 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
                 return true;
             }
             case R.id.save_note_item: {
-                getSupportFragmentManager().popBackStack();
-               getSupportFragmentManager()
-                        .beginTransaction()
-                        .add(R.id.fragment_list, ListNoteFragment.newInstance(createNote()))
-              //          .addToBackStack(null)
-                        .commit();
+                openScreenPostSave();
                 return true;
             }
             default: {
@@ -113,58 +89,16 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
             }
         }
     }
-    private Note createNote() {
-        Note noteNew = new Note(headEditText.getText().toString(),
-                descriptionEditText.getText().toString(),
-                dataSave);
-        noteNew.setId(positioN+1);
-        return noteNew;
-    }
+
     @Override
-    public void openListNote(){
+    public void openListNote() {
         initRecyclerView();
-     }
+    }
+
     @Override
-    public void openEditNote(){
+    public void openEditNote() {
         initDataPicker();
         initEditText();
-    }
-
-
-
-    public void openNoteScreen(Note note) {
-         if (getResources().getConfiguration().orientation ==Configuration.ORIENTATION_LANDSCAPE){
-             getSupportFragmentManager().popBackStack();
-             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager
-                     .beginTransaction()
-                     .replace(R.id.fragment_edit, EditNoteFragment.newInstance(note))
-                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .addToBackStack(null)
-                     .commit();
-
-
-         } else {
-
-             getSupportFragmentManager()
-                     .beginTransaction()
-                     .add(R.id.fragment_edit, EditNoteFragment.newInstance(note))
-                     .addToBackStack(null)
-                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                     .commit();
-         }
-
-
-    }
-
-
-public void createNoteActivity (Note note ){
-        notesRepository.createNote(new Note(note.getHead(), note.getDescription(), note.getDate()));
-
-}
-    public void updateNoteActivity (Note note ){
-        notesRepository.updateNote(note.getId(), note);
-
     }
     private void createTestNotesRepository() {
         notesRepository.createNote(new Note("Заметка № 1", "Пойти в учить", "12.09.2012 года."));
@@ -186,9 +120,82 @@ public void createNoteActivity (Note note ){
 
     }
 
+    private void oneOpenFragment() {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_edit, EditNoteFragment.newInstance(notesRepository.getNotes().get(positioN)))
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null)
+                    .commit();
+
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_list, new ListNoteFragment())
+                    .commit();
+        }
+    }
+
+    private void openScreenPostSave() {
+        getSupportFragmentManager().popBackStack();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_list, ListNoteFragment.newInstance(createNote()))
+                .commit();
+    }
+
+    private Note createNote() {
+        Note noteNew = new Note(headEditText.getText().toString(),
+                descriptionEditText.getText().toString(),
+                dataSave);
+        noteNew.setId(positioN + 1);
+        return noteNew;
+    }
+
+
+    public void openNoteScreen(Note note) {
+        twoOpenFragment(note);
+    }
+
+    private void twoOpenFragment(Note note) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getSupportFragmentManager().popBackStack();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_edit, EditNoteFragment.newInstance(note))
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.fragment_edit, EditNoteFragment.newInstance(note))
+                    .addToBackStack(null)
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .commit();
+        }
+    }
+
+
+    public void createNoteActivity(Note note) {
+        notesRepository.createNote(new Note(note.getHead(), note.getDescription(), note.getDate()));
+
+    }
+
+    public void updateNoteActivity(Note note) {
+        notesRepository.updateNote(note.getId(), note);
+
+    }
+    private void initEditText() {
+        headEditText = findViewById(R.id.head_edit_text);
+        descriptionEditText = findViewById(R.id.description_edit_text);
+        dataTextView = findViewById(R.id.data_text_view_create_note);
+    }
 
     public void initRecyclerView() {
-        recyclerView=(RecyclerView) findViewById(R.id.recycler_view_notes);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view_notes);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
@@ -198,17 +205,8 @@ public void createNoteActivity (Note note ){
 
     private void onItemClick(Note item) {
         openNoteScreen(item);
-        positioN = item.getId()-1;
+        positioN = item.getId() - 1;
 
-    }
-
-
-
-    private void createDecoration() {
-        DividerItemDecoration itemDecoration =
-                new DividerItemDecoration(this, LinearLayoutManager.VERTICAL);
-        itemDecoration.setDrawable(getResources().getDrawable(R.drawable.separator, null));
-        recyclerView.addItemDecoration(itemDecoration);
     }
 
 
@@ -229,9 +227,9 @@ public void createNoteActivity (Note note ){
     }
 
     private String convertWriteData(int day, int month, int year) {
-        String s = Pattern.compile(R.string.data_text+"").toString();
+        String s = Pattern.compile(R.string.data_text + "").toString();
 
-        return convertWriteDayAndMonthData(day) + "." + convertWriteDayAndMonthData(month) + "." + year +  (String) dataYearTextView.getText();
+        return convertWriteDayAndMonthData(day) + "." + convertWriteDayAndMonthData(month) + "." + year + (String) dataYearTextView.getText();
     }
 
     private String convertWriteDayAndMonthData(int day) {
@@ -243,10 +241,6 @@ public void createNoteActivity (Note note ){
     }
 
 
-    private void initEditText() {
-        headEditText = findViewById(R.id.head_edit_text);
-        descriptionEditText = findViewById(R.id.description_edit_text);
-        dataTextView =findViewById(R.id.data_text_view_create_note);
-    }
+
 
 }

@@ -52,9 +52,6 @@ public class ListNoteFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,35 +60,29 @@ public class ListNoteFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-     //   if (savedInstanceState!= null){
-    //        position = savedInstanceState.getInt(CURRENT_NOTE);
-   //     }
         Bundle bundle = getArguments();
         if(bundle!=null){
             note = bundle.getParcelable(ARG_NOTE_LIST);
-            if (note.getId() == 0) {
-                ((MainActivity)requireActivity()).createNoteActivity(note);
-            } else {
-                ((MainActivity)requireActivity()).updateNoteActivity(note);
-            }
-            ((MainActivity)requireActivity()).initRecyclerView();
-           // ((MainActivity)requireActivity()).
+            saveNote();
         }
-        toolbar = (MaterialToolbar) view.findViewById(R.id.note_list_toolbar);
-        ((MainActivity)requireActivity()).setSupportActionBar(toolbar);
+        initToolbar(view);
         controller.openListNote();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    private void saveNote() {
+        if (note.getId() == 0) {
+            ((MainActivity)requireActivity()).createNoteActivity(note);
+        } else {
+            ((MainActivity)requireActivity()).updateNoteActivity(note);
+        }
+        ((MainActivity)requireActivity()).initRecyclerView();
+    }
+
+    private void initToolbar(View view) {
+        toolbar = (MaterialToolbar) view.findViewById(R.id.note_list_toolbar);
+        ((MainActivity)requireActivity()).setSupportActionBar(toolbar);
     }
 
     private  Controller getController(){
