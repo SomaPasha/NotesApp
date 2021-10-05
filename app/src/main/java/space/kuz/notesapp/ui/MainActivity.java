@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.ListFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -43,13 +45,18 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.domain.NotesRepository;
+import space.kuz.notesapp.fragment.BasketFragment;
 import space.kuz.notesapp.fragment.EditNoteFragment;
 import space.kuz.notesapp.fragment.ListNoteFragment;
+import space.kuz.notesapp.fragment.PersonFragment;
 import space.kuz.notesapp.fragment.SettingFragment;
 import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
@@ -60,6 +67,9 @@ import static space.kuz.notesapp.CONSTANT.Constant.positioN;
 public class MainActivity extends AppCompatActivity implements ListNoteFragment.Controller,
         EditNoteFragment.Controller {
     private BottomNavigationView bottomNavigationView;
+
+    private Map<Integer,Fragment> fragmentMap = new HashMap<>();
+
     private RecyclerView recyclerView;
     private Note noteNull = new Note();
     private Note noteNew = new Note();
@@ -92,34 +102,36 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
     private void initNavigationView() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(v -> {
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            Fragment fragment;
             switch (v.getItemId()){
                 case R.id.nav_setting:
-                    Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show();
+                    fragment = new SettingFragment();
                     break;
                 default:
-                    Toast.makeText(this, "defaLT", Toast.LENGTH_SHORT).show();
+                    fragment = new SettingFragment();
             }
-            return false;
+            fragmentTransaction.replace(R.id.nav_bottom_view, fragment);
+            fragmentTransaction.commit();
+
+            return true;
         });
     }
 
     private void initBottomNavigationView() {
+        fragmentMap.put(R.id.nav_note, new ListNoteFragment() );
+        fragmentMap.put(R.id.nav_basket, new BasketFragment() );
+        fragmentMap.put(R.id.nav_person, new PersonFragment() );
+
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_nav_view) ;
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()){
-                case R.id.nav_note:
-                    Toast.makeText(this, "ЗАМЕТКИ", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.nav_basket:
-                    Toast.makeText(this, "КОРЗИНА", Toast.LENGTH_SHORT).show();
-                    break;
-                case R.id.nav_person:
-                    Toast.makeText(this, "ЛИЧНЫЕ ДАННЫЕ", Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    Toast.makeText(this, "defaLT", Toast.LENGTH_SHORT).show();
-            }
-            return false;
+         getSupportFragmentManager()
+                 .beginTransaction()
+                 .replace(R.id.nav_bottom_view, Objects.requireNonNull( fragmentMap.get(item.getItemId())))
+                 .commit();
+            return true;
         });
     }
 
