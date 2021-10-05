@@ -13,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,6 +52,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+import space.kuz.notesapp.DragAndSwipe;
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.domain.NotesRepository;
@@ -64,9 +66,9 @@ import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 import static space.kuz.notesapp.CONSTANT.Constant.EDIT_NOTE;
 import static space.kuz.notesapp.CONSTANT.Constant.positioN;
 
-@SuppressLint("RestrictedApi")
-public class MainActivity extends AppCompatActivity implements ListNoteFragment.Controller,
-        EditNoteFragment.Controller {
+//@SuppressLint("RestrictedApi")
+public class MainActivity extends AppCompatActivity implements  ListNoteFragment.Controller,
+        EditNoteFragment.Controller  {
     private BottomNavigationView bottomNavigationView;
 
     private Map<Integer,Fragment> fragmentMap = new HashMap<>();
@@ -97,7 +99,9 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         }
         initBottomNavigationView();
         initNavigationView();
-
+      //  ItemTouchHelper.Callback callback = new DragAndSwipe(adapter);
+      //  ItemTouchHelper touchHelper= new ItemTouchHelper(callback);
+    //    touchHelper.attachToRecyclerView(recyclerView);
 
     }
     private void initNavigationView() {
@@ -172,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         }
     }
 
-
     @Override
     public void openListNote() {
         initRecyclerView();
@@ -236,7 +239,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         return noteNew;
     }
 
-
     public void openNoteScreen(Note note) {
         twoOpenFragment(note);
     }
@@ -261,7 +263,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         }
     }
 
-
     public void createNoteActivity(Note note) {
         notesRepository.createNote(new Note(note.getHead(), note.getDescription(), note.getDate()));
 
@@ -271,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         notesRepository.updateNote(note.getId(), note);
 
     }
+
     private void initEditText() {
         headEditText = findViewById(R.id.head_edit_text);
         descriptionEditText = findViewById(R.id.description_edit_text);
@@ -291,7 +293,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         positioN = item.getId() - 1;
 
     }
-
 
     private void initDataPicker() {
         datePicker = findViewById(R.id.data_picket);
@@ -322,8 +323,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
             return "" + day;
         }
     }
-
-
 
 
 }
