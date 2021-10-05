@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.ListFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.internal.NavigationMenuItemView;
 import com.google.android.material.navigation.NavigationView;
@@ -42,13 +45,18 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.domain.NotesRepository;
+import space.kuz.notesapp.fragment.BasketFragment;
 import space.kuz.notesapp.fragment.EditNoteFragment;
 import space.kuz.notesapp.fragment.ListNoteFragment;
+import space.kuz.notesapp.fragment.PersonFragment;
 import space.kuz.notesapp.fragment.SettingFragment;
 import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
@@ -57,8 +65,11 @@ import static space.kuz.notesapp.CONSTANT.Constant.positioN;
 
 @SuppressLint("RestrictedApi")
 public class MainActivity extends AppCompatActivity implements ListNoteFragment.Controller,
-        EditNoteFragment.Controller,  NavigationView.OnNavigationItemSelectedListener
-         {
+        EditNoteFragment.Controller {
+    private BottomNavigationView bottomNavigationView;
+
+    private Map<Integer,Fragment> fragmentMap = new HashMap<>();
+
     private RecyclerView recyclerView;
     private Note noteNull = new Note();
     private Note noteNew = new Note();
@@ -83,9 +94,46 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         if (savedInstanceState == null) {
             oneOpenFragment();
         }
+        initBottomNavigationView();
+        initNavigationView();
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+    }
+    private void initNavigationView() {
         NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(v -> {
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            Fragment fragment;
+            switch (v.getItemId()){
+                case R.id.nav_setting:
+                    fragment = new SettingFragment();
+                    break;
+                default:
+                    fragment = new SettingFragment();
+            }
+            fragmentTransaction.replace(R.id.fragment_edit_2, fragment);
+            fragmentTransaction.commit();
+
+            return true;
+        });
+    }
+
+    private void initBottomNavigationView() {
+        fragmentMap.put(R.id.nav_note, new ListNoteFragment() );
+        fragmentMap.put(R.id.nav_basket, new BasketFragment() );
+        fragmentMap.put(R.id.nav_person, new PersonFragment() );
+
+        bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_nav_view) ;
+            bottomNavigationView.setOnItemSelectedListener(item -> {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_edit_2, Objects.requireNonNull( fragmentMap.get(item.getItemId())))
+                        .commit();
+                return true;
+            });
+
     }
 
     @Override
@@ -107,16 +155,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         }
     }
 
-
-             @SuppressWarnings("StatemenWithEmplyBody")
-             @Override
-             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                 int id = item.getItemId();
-                 if(id == R.id.nav_setting){
-                     Toast.makeText(this, "dsfg", Toast.LENGTH_SHORT).show();
-                 }
-                 return true;
-             }
 
     @Override
     public void openListNote() {

@@ -10,4 +10,7 @@
     <string name="menu_setting">Настройки </string>
     <string name="nav_name">Павел</string>
     <string name="nav_surname">Кузнецов</string>
+    <string name="nav_note">Заметки</string>
+    <string name="nav_basket">Корзина</string>
+    <string name="nav_person">Личный кабинет</string>
 </resources>
