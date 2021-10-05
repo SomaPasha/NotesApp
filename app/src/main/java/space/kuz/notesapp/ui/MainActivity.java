@@ -31,6 +31,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.internal.NavigationMenu;
@@ -124,15 +125,27 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         fragmentMap.put(R.id.nav_note, new ListNoteFragment() );
         fragmentMap.put(R.id.nav_basket, new BasketFragment() );
         fragmentMap.put(R.id.nav_person, new PersonFragment() );
-
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_nav_view) ;
             bottomNavigationView.setOnItemSelectedListener(item -> {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_edit_2, Objects.requireNonNull( fragmentMap.get(item.getItemId())))
-                        .commit();
+                if(item.getItemId() == R.id.nav_note) {
+                    getSupportFragmentManager().popBackStack();
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.fragment_list, new ListNoteFragment())
+                            .commit();
+
+                } else {
+                    getSupportFragmentManager().popBackStack();
+                       getSupportFragmentManager()
+                                 .beginTransaction()
+                                 .replace(R.id.fragment_edit_2, Objects.requireNonNull(fragmentMap.get(item.getItemId())))
+                               .addToBackStack(null)
+                                .commit();
+                }
+
                 return true;
             });
+
 
     }
 
