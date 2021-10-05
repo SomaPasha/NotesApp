@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.internal.NavigationMenuItemView;
 import com.google.android.material.navigation.NavigationView;
@@ -57,8 +58,8 @@ import static space.kuz.notesapp.CONSTANT.Constant.positioN;
 
 @SuppressLint("RestrictedApi")
 public class MainActivity extends AppCompatActivity implements ListNoteFragment.Controller,
-        EditNoteFragment.Controller,  NavigationView.OnNavigationItemSelectedListener
-         {
+        EditNoteFragment.Controller {
+    private BottomNavigationView bottomNavigationView;
     private RecyclerView recyclerView;
     private Note noteNull = new Note();
     private Note noteNew = new Note();
@@ -83,9 +84,34 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         if (savedInstanceState == null) {
             oneOpenFragment();
         }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_nav_view) ;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.nav_note:
+                    Toast.makeText(this, "ЗАМЕТКИ", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.nav_basket:
+                    Toast.makeText(this, "КОРЗИНА", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.nav_person:
+                    Toast.makeText(this, "ЛИЧНЫЕ ДАННЫЕ", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    Toast.makeText(this, "defaLT", Toast.LENGTH_SHORT).show();
+            }
+                return false;
+        });
         NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(v -> {
+            switch (v.getItemId()){
+                case R.id.nav_setting:
+                    Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    Toast.makeText(this, "defaLT", Toast.LENGTH_SHORT).show();
+            }
+            return false;
+        });
     }
 
     @Override
@@ -107,16 +133,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         }
     }
 
-
-             @SuppressWarnings("StatemenWithEmplyBody")
-             @Override
-             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                 int id = item.getItemId();
-                 if(id == R.id.nav_setting){
-                     Toast.makeText(this, "dsfg", Toast.LENGTH_SHORT).show();
-                 }
-                 return true;
-             }
 
     @Override
     public void openListNote() {
