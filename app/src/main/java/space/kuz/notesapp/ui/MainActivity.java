@@ -109,12 +109,16 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
             Fragment fragment;
             switch (v.getItemId()){
                 case R.id.nav_setting:
+                    getSupportFragmentManager().popBackStack();
                     fragment = new SettingFragment();
                     break;
                 default:
+                    getSupportFragmentManager().popBackStack();
                     fragment = new SettingFragment();
             }
+
             fragmentTransaction.replace(R.id.fragment_edit_2, fragment);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
 
             return true;

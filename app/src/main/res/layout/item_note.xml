@@ -50,15 +50,7 @@
         android:layout_height="wrap_content"/>
 </LinearLayout>
 
-<Button
-    android:id="@+id/button_delete"
-    android:layout_width="32dp"
-    android:layout_height="32dp"
-    android:background="@drawable/ic_baseline_delete_24"
-    android:layout_alignParentEnd="true"
-    android:layout_centerVertical="true"
-    >
-</Button>
+
 </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 </com.google.android.material.circularreveal.CircularRevealFrameLayout>
