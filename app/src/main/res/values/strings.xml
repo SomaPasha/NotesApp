@@ -9,4 +9,7 @@
     <string name="menu_setting">Setting</string>
     <string name="nav_name">Pasha</string>
     <string name="nav_surname">Kuznetsov</string>
+    <string name="nav_note">Notes</string>
+    <string name="nav_basket">Basket</string>
+    <string name="nav_person">Person</string>
 </resources>
