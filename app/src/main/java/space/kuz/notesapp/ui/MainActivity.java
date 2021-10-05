@@ -84,6 +84,26 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         if (savedInstanceState == null) {
             oneOpenFragment();
         }
+        initBottomNavigationView();
+        initNavigationView();
+
+
+    }
+    private void initNavigationView() {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(v -> {
+            switch (v.getItemId()){
+                case R.id.nav_setting:
+                    Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    Toast.makeText(this, "defaLT", Toast.LENGTH_SHORT).show();
+            }
+            return false;
+        });
+    }
+
+    private void initBottomNavigationView() {
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_nav_view) ;
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
@@ -95,17 +115,6 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
                     break;
                 case R.id.nav_person:
                     Toast.makeText(this, "ЛИЧНЫЕ ДАННЫЕ", Toast.LENGTH_SHORT).show();
-                    break;
-                default:
-                    Toast.makeText(this, "defaLT", Toast.LENGTH_SHORT).show();
-            }
-                return false;
-        });
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(v -> {
-            switch (v.getItemId()){
-                case R.id.nav_setting:
-                    Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     Toast.makeText(this, "defaLT", Toast.LENGTH_SHORT).show();
