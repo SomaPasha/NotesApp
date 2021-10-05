@@ -126,13 +126,14 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
         fragmentMap.put(R.id.nav_person, new PersonFragment() );
 
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_nav_view) ;
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-         getSupportFragmentManager()
-                 .beginTransaction()
-                 .replace(R.id.nav_bottom_view, Objects.requireNonNull( fragmentMap.get(item.getItemId())))
-                 .commit();
-            return true;
-        });
+            bottomNavigationView.setOnItemSelectedListener(item -> {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_edit_2, Objects.requireNonNull( fragmentMap.get(item.getItemId())))
+                        .commit();
+                return true;
+            });
+
     }
 
     @Override
