@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements ListNoteFragment.
                 default:
                     fragment = new SettingFragment();
             }
-            fragmentTransaction.replace(R.id.nav_bottom_view, fragment);
+            fragmentTransaction.replace(R.id.fragment_edit_2, fragment);
             fragmentTransaction.commit();
 
             return true;
