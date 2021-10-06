@@ -46,8 +46,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -66,7 +69,7 @@ import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 import static space.kuz.notesapp.CONSTANT.Constant.EDIT_NOTE;
 import static space.kuz.notesapp.CONSTANT.Constant.positioN;
 
-//@SuppressLint("RestrictedApi")
+@SuppressLint("RestrictedApi")
 public class MainActivity extends AppCompatActivity implements  ListNoteFragment.Controller,
         EditNoteFragment.Controller  {
     private BottomNavigationView bottomNavigationView;
