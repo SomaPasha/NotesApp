@@ -49,6 +49,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> /* implem
         this.listener=listener;
     }
 
+    public interface onItemClickListener{
+        void onItemClick(Note item);
+    }
  /*   @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
         if(fromPosition<toPosition){
@@ -71,7 +74,5 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> /* implem
      notifyItemRemoved(position);
     } */
 
-    public interface onItemClickListener{
-        void onItemClick(Note item);
-    }
+
 }

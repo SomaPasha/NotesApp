@@ -1,6 +1,7 @@
 package space.kuz.notesapp.ui;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -18,17 +19,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
         EditNoteFragment.Controller  {
     private BottomNavigationView bottomNavigationView;
 
+    private Button contextMenuButton;
+    private  Button popupMenuButton;
+
     private Map<Integer,Fragment> fragmentMap = new HashMap<>();
 
     private RecyclerView recyclerView;
@@ -91,15 +101,17 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     private int position = 0;
 
     private AppBarConfiguration mAppBarConfiguration;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         createTestNotesRepository();
-
         if (savedInstanceState == null) {
             oneOpenFragment();
         }
+        initContextMenuButton();
+        initPopupMenuButton();
         initBottomNavigationView();
         initNavigationView();
       //  ItemTouchHelper.Callback callback = new DragAndSwipe(adapter);
@@ -107,6 +119,45 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     //    touchHelper.attachToRecyclerView(recyclerView);
 
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void initContextMenuButton() {
+        contextMenuButton = (Button) findViewById(R.id.button_context_menu);
+        contextMenuButton.setOnCreateContextMenuListener(this);
+        contextMenuButton.setOnClickListener(v -> {
+            v.showContextMenu();
+        });
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getMenuInflater().inflate(R.menu.single_menu,menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        onContextItemClick(item);
+        return  true;
+    }
+    private void onContextItemClick(@NonNull MenuItem item){
+        Toast.makeText(this, item.getItemId(), Toast.LENGTH_SHORT).show();
+    }
+    private void initPopupMenuButton() {
+        popupMenuButton = (Button) findViewById(R.id.button_popup_menu);
+        popupMenuButton.setOnClickListener(v -> {
+            PopupMenu popupMenu  = new  PopupMenu(this,v);
+            popupMenu.inflate(R.menu.single_menu);
+            popupMenu.setOnMenuItemClickListener(item -> {
+            onContextItemClick(item);
+                         return true;
+            });
+            popupMenu.show();
+              });
+
+
+    }
+
     private void initNavigationView() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(v -> {

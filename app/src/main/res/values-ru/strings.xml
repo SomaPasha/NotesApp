@@ -13,4 +13,6 @@
     <string name="nav_note">Заметки</string>
     <string name="nav_basket">Корзина</string>
     <string name="nav_person">Личный кабинет</string>
+    <string name="redact">Редактировать</string>
+    <string name="delete">Удалить</string>
 </resources>
