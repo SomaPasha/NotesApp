@@ -13,12 +13,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -45,6 +47,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.internal.NavigationMenuItemView;
 import com.google.android.material.navigation.NavigationView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -81,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
         EditNoteFragment.Controller  {
     private BottomNavigationView bottomNavigationView;
 
-    private Button contextMenuButton;
-    private  Button popupMenuButton;
 
     private Map<Integer,Fragment> fragmentMap = new HashMap<>();
 
@@ -110,23 +112,12 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
         if (savedInstanceState == null) {
             oneOpenFragment();
         }
-        initContextMenuButton();
-        initPopupMenuButton();
         initBottomNavigationView();
         initNavigationView();
       //  ItemTouchHelper.Callback callback = new DragAndSwipe(adapter);
       //  ItemTouchHelper touchHelper= new ItemTouchHelper(callback);
     //    touchHelper.attachToRecyclerView(recyclerView);
 
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void initContextMenuButton() {
-        contextMenuButton = (Button) findViewById(R.id.button_context_menu);
-        contextMenuButton.setOnCreateContextMenuListener(this);
-        contextMenuButton.setOnClickListener(v -> {
-            v.showContextMenu();
-        });
     }
 
     @Override
@@ -141,21 +132,12 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
         return  true;
     }
     private void onContextItemClick(@NonNull MenuItem item){
-        Toast.makeText(this, item.getItemId(), Toast.LENGTH_SHORT).show();
-    }
-    private void initPopupMenuButton() {
-        popupMenuButton = (Button) findViewById(R.id.button_popup_menu);
-        popupMenuButton.setOnClickListener(v -> {
-            PopupMenu popupMenu  = new  PopupMenu(this,v);
-            popupMenu.inflate(R.menu.single_menu);
-            popupMenu.setOnMenuItemClickListener(item -> {
-            onContextItemClick(item);
-                         return true;
-            });
-            popupMenu.show();
-              });
-
-
+        if(item.getItemId()==R.id.delete_item_menu){
+        notesRepository.deleteNote(noteNew.getId());
+        adapter.setData(notesRepository.getNotes());
+        } else if (item.getItemId()==R.id.redact_item_menu){
+            onItemClick(noteNew);
+            }
     }
 
     private void initNavigationView() {
@@ -233,6 +215,9 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     @Override
     public void openListNote() {
         initRecyclerView();
+        if (positioN==-1) {
+            scrollRecyclerView();
+        }
     }
 
     @Override
@@ -340,12 +325,36 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
         recyclerView.setAdapter(adapter);
         adapter.setData(notesRepository.getNotes());
         adapter.setOnItemClickListener(this::onItemClick);
+        adapter.setOnItemLongClickListener(this::onItemLongClick);
+    }
+    public void scrollRecyclerView(){
+        recyclerView.smoothScrollToPosition(adapter.getItemCount()-1);
     }
 
     private void onItemClick(Note item) {
         openNoteScreen(item);
         positioN = item.getId() - 1;
 
+    }
+
+    private void onItemLongClick(Note itemNote, View itemView) {
+        // Для реализации через контекстное меню
+          noteNew =itemNote;
+          itemView.setOnCreateContextMenuListener(this);
+          itemView.showContextMenu();
+
+
+        // Реализация через попул меню
+    /*    PopupMenu popupMenu  = new  PopupMenu(this, itemView);
+        popupMenu.inflate(R.menu.single_menu);
+        popupMenu.setOnMenuItemClickListener(item -> {
+           // item.set
+            itemView.getX();
+            itemView.getY();
+            Toast.makeText(this, "hh", Toast.LENGTH_SHORT).show();
+            return true;
+        });
+        popupMenu.show();*/
     }
 
     private void initDataPicker() {

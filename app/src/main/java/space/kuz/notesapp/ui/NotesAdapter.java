@@ -19,6 +19,8 @@ import space.kuz.notesapp.domain.Note;
 public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> /* implements ItemTouchHelperAdapter*/ {
     private List<Note> data = new ArrayList<>();
     private onItemClickListener listener=null;
+    private NotesAdapter.onItemLongClickListener listenerLong= null;
+
 
     public void setData(List<Note> data) {
         this.data = data;
@@ -28,7 +30,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> /* implem
     @NonNull
     @Override
     public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new NoteViewHolder(parent,listener);
+        return new NoteViewHolder(parent,listener, listenerLong);
     }
 
     @Override
@@ -48,9 +50,16 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> /* implem
     public void setOnItemClickListener(onItemClickListener listener) {
         this.listener=listener;
     }
+    public void setOnItemLongClickListener(onItemLongClickListener listenerLong) {
+        this.listenerLong=listenerLong;
+    }
 
     public interface onItemClickListener{
         void onItemClick(Note item);
+    }
+
+    public  interface  onItemLongClickListener{
+        void onItemLongClick(Note item, View itemView);
     }
  /*   @Override
     public boolean onItemMove(int fromPosition, int toPosition) {

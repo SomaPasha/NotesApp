@@ -73,6 +73,7 @@ public class ListNoteFragment extends Fragment  {
         }
         initToolbar(view);
         controller.openListNote();
+
     }
 
     private void saveNote() {
@@ -82,6 +83,7 @@ public class ListNoteFragment extends Fragment  {
             ((MainActivity)requireActivity()).updateNoteActivity(note);
         }
         ((MainActivity)requireActivity()).initRecyclerView();
+
     }
 
     private void initToolbar(View view) {
