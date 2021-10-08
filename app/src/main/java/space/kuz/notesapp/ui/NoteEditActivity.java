@@ -35,7 +35,6 @@ public class NoteEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
-        initDataPicker();
         initToolBar();
         getData();
         initEditText();
@@ -62,21 +61,7 @@ public class NoteEditActivity extends AppCompatActivity {
         }
     }
 
-    private void initDataPicker() {
-        datePicker = findViewById(R.id.data_picket);
-        dataYearTextView = findViewById(R.id.data_text_year);
 
-        Calendar today = Calendar.getInstance();
-        int year = today.get(Calendar.YEAR);
-        int month = today.get(Calendar.MONTH);
-        int day = today.get(Calendar.DAY_OF_MONTH);
-
-        dataSave = convertWriteData(day, month + 1, year);
-        datePicker.init(year, month,
-                day, (view, year1, monthOfYear, dayOfMonth) -> {
-                    dataSave = convertWriteData(dayOfMonth, monthOfYear + 1, year1);
-                });
-    }
 
     private String convertWriteData(int day, int month, int year) {
         String s = Pattern.compile(R.string.data_text+"").toString();

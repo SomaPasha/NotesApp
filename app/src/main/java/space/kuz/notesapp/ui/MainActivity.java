@@ -3,70 +3,38 @@ package space.kuz.notesapp.ui;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.fragment.app.ListFragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.ClipData;
-import android.content.Context;
-import android.content.Intent;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.os.TestLooperManager;
 import android.view.ContextMenu;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.TimePicker;
 
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.internal.NavigationMenu;
-import com.google.android.material.internal.NavigationMenuItemView;
 import com.google.android.material.navigation.NavigationView;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-import space.kuz.notesapp.DragAndSwipe;
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.domain.NotesRepository;
@@ -77,7 +45,6 @@ import space.kuz.notesapp.fragment.PersonFragment;
 import space.kuz.notesapp.fragment.SettingFragment;
 import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
-import static space.kuz.notesapp.CONSTANT.Constant.EDIT_NOTE;
 import static space.kuz.notesapp.CONSTANT.Constant.positioN;
 
 @SuppressLint("RestrictedApi")
@@ -95,10 +62,15 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     private NotesAdapter adapter = new NotesAdapter();
     private EditText headEditText;
     private EditText descriptionEditText;
-    private TextView dataTextView;
-    private TextView dataYearTextView;
-    private DatePicker datePicker;
     private String dataSave;
+    private  String timeSave;
+    TextView dataTextView;
+
+    TextView setDataTextView;
+    TextView setTimeTextView;
+   Button buttonData;
+   Button buttonTime;
+    int mYear, mMonth, mDay, mHour,mMinute;
 
     private int position = 0;
 
@@ -112,12 +84,58 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
         if (savedInstanceState == null) {
             oneOpenFragment();
         }
-        initBottomNavigationView();
-        initNavigationView();
       //  ItemTouchHelper.Callback callback = new DragAndSwipe(adapter);
       //  ItemTouchHelper touchHelper= new ItemTouchHelper(callback);
     //    touchHelper.attachToRecyclerView(recyclerView);
 
+    }
+
+    private void initDataPicketDialog() {
+        setDataTextView = findViewById(R.id.text_view_set_data);
+        setTimeTextView = findViewById(R.id.text_view_set_time);
+
+        buttonData= findViewById(R.id.button_set_data);
+        buttonTime = findViewById(R.id.button_set_time);
+        initBottomNavigationView();
+        initNavigationView();
+        buttonData.setOnClickListener(v -> {
+            callDatePicket();
+        });
+        buttonTime.setOnClickListener(v -> {
+            callTimePicket();
+        });
+    }
+
+    private void callDatePicket() {
+        final Calendar calendar = Calendar.getInstance();
+        mYear = calendar.get(Calendar.YEAR);
+        mMonth = calendar.get(Calendar.MONTH);
+        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                dataSave = convertWriteData(dayOfMonth,month+1,year);
+                setDataTextView.setText(dataSave);
+            }
+        } , mYear,mMonth,mDay);
+    datePickerDialog.show();
+    }
+
+    private void callTimePicket() {
+        final Calendar calendar = Calendar.getInstance();
+        mHour = calendar.get(Calendar.HOUR_OF_DAY);
+        mMinute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+               timeSave = convertWriteTime(hourOfDay,minute);
+                     //  hourOfDay+ ":"+minute;
+               setTimeTextView.setText(timeSave);
+            }
+        },mHour, mMinute, false);
+        timePickerDialog.show();
     }
 
     @Override
@@ -222,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
 
     @Override
     public void openEditNote() {
-        initDataPicker();
+        initDataPicketDialog();
         initEditText();
     }
     private void createTestNotesRepository() {
@@ -271,11 +289,24 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     }
 
     private Note createNote() {
+        sumDataAndTime();
         Note noteNew = new Note(headEditText.getText().toString(),
                 descriptionEditText.getText().toString(),
                 dataSave);
+        nullDataTime();
         noteNew.setId(positioN + 1);
         return noteNew;
+    }
+
+    private void nullDataTime() {
+        dataSave =null;
+        timeSave = null;
+    }
+
+    private void sumDataAndTime() {
+        if (dataSave == null){ dataSave = convertWriteData(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+1,Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.YEAR));}
+        if(timeSave == null){ timeSave =convertWriteTime(Calendar.getInstance().get(Calendar.HOUR),Calendar.getInstance().get(Calendar.MINUTE)) ;}
+        dataSave= dataSave+" "+timeSave;
     }
 
     public void openNoteScreen(Note note) {
@@ -357,26 +388,12 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
         popupMenu.show();*/
     }
 
-    private void initDataPicker() {
-        datePicker = findViewById(R.id.data_picket);
-        dataYearTextView = findViewById(R.id.data_text_year);
-
-        Calendar today = Calendar.getInstance();
-        int year = today.get(Calendar.YEAR);
-        int month = today.get(Calendar.MONTH);
-        int day = today.get(Calendar.DAY_OF_MONTH);
-
-        dataSave = convertWriteData(day, month + 1, year);
-        datePicker.init(year, month,
-                day, (view, year1, monthOfYear, dayOfMonth) -> {
-                    dataSave = convertWriteData(dayOfMonth, monthOfYear + 1, year1);
-                });
+    private String convertWriteTime(int mHour, int mMinute) {
+        return convertWriteDayAndMonthData(mHour) + ":" + convertWriteDayAndMonthData(mMinute);
     }
 
     private String convertWriteData(int day, int month, int year) {
-        String s = Pattern.compile(R.string.data_text + "").toString();
-
-        return convertWriteDayAndMonthData(day) + "." + convertWriteDayAndMonthData(month) + "." + year + (String) dataYearTextView.getText();
+        return convertWriteDayAndMonthData(day) + "." + convertWriteDayAndMonthData(month) + "." + year;
     }
 
     private String convertWriteDayAndMonthData(int day) {

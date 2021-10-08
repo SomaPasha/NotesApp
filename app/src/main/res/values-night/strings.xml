@@ -3,7 +3,7 @@
     <string name="create_note">Create note</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
-    <string name="data_text">"Past data: "</string>
+    <string name="data_text">"Past data and time: "</string>
     <string name="name_data_text">"Set date: "</string>
     <string name="year_text">" year."</string>
     <string name="menu_setting">Setting</string>
@@ -14,4 +14,7 @@
     <string name="nav_person">Person</string>
     <string name="redact">Redact</string>
     <string name="delete">Delete</string>
+    <string name="set_time">Set time:</string>
+    <string name="set_time_bth">Set time</string>
+    <string name="set_data_bth">Set data</string>
 </resources>

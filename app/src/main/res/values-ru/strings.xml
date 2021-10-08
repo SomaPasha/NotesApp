@@ -4,7 +4,7 @@
     <string name="create_note">Создание заметки</string>
     <string name="title">Заголовок</string>
     <string name="description">Описание</string>
-    <string name="data_text">"Прошлая дата: "</string>
+    <string name="data_text">"Прошлая дата и время: "</string>
     <string name="name_data_text">"Установите дату: "</string>
     <string name="year_text">" года."</string>
     <string name="menu_setting">Настройки </string>
@@ -15,4 +15,7 @@
     <string name="nav_person">Личный кабинет</string>
     <string name="redact">Редактировать</string>
     <string name="delete">Удалить</string>
+    <string name="set_time">Установить время:</string>
+    <string name="set_time_bth">Установить время</string>
+    <string name="set_data_bth">Установить дату</string>
 </resources>
