@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.res.Configuration;
@@ -25,6 +26,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -51,8 +53,6 @@ import static space.kuz.notesapp.CONSTANT.Constant.positioN;
 public class MainActivity extends AppCompatActivity implements  ListNoteFragment.Controller,
         EditNoteFragment.Controller  {
     private BottomNavigationView bottomNavigationView;
-
-
     private Map<Integer,Fragment> fragmentMap = new HashMap<>();
 
     private RecyclerView recyclerView;
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     TextView setTimeTextView;
    Button buttonData;
    Button buttonTime;
+  // Button buttonExit;
     int mYear, mMonth, mDay, mHour,mMinute;
 
     private int position = 0;
@@ -84,10 +85,9 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
         if (savedInstanceState == null) {
             oneOpenFragment();
         }
-      //  ItemTouchHelper.Callback callback = new DragAndSwipe(adapter);
-      //  ItemTouchHelper touchHelper= new ItemTouchHelper(callback);
-    //    touchHelper.attachToRecyclerView(recyclerView);
 
+        //buttonExit = findViewById(R.id.button_exit);
+     //   buttonExit.setOnClickListener(v -> android.os.Process.killProcess(android.os.Process.myPid()));
     }
 
     private void initDataPicketDialog() {
@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                timeSave = convertWriteTime(hourOfDay,minute);
-                     //  hourOfDay+ ":"+minute;
                setTimeTextView.setText(timeSave);
             }
         },mHour, mMinute, false);
@@ -220,6 +219,9 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
                 positioN = -1;
                 return true;
             }
+            case R.id.button_exit: {
+                android.os.Process.killProcess(android.os.Process.myPid());
+            }
             case R.id.save_note_item: {
                 openScreenPostSave();
                 return true;
@@ -243,6 +245,19 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
         initDataPicketDialog();
         initEditText();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+       // Toast.makeText(this, "Приложение закрыто", Toast.LENGTH_SHORT).show();
+     //   super.onCreate();
+        super.onDestroy();
+    }
+
     private void createTestNotesRepository() {
         notesRepository.createNote(new Note("Заметка № 1", "Пойти в учить", "12.09.2012 года."));
         notesRepository.createNote(new Note("Заметка № 2", "Пойти в школу", "12.09.2012 года."));
@@ -403,6 +418,5 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
             return "" + day;
         }
     }
-
 
 }

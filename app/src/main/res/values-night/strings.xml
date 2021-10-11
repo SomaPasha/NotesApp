@@ -17,4 +17,5 @@
     <string name="set_time">Set time:</string>
     <string name="set_time_bth">Set time</string>
     <string name="set_data_bth">Set data</string>
+    <string name="exit">Exit</string>
 </resources>

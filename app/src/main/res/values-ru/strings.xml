@@ -18,4 +18,5 @@
     <string name="set_time">Установить время:</string>
     <string name="set_time_bth">Установить время</string>
     <string name="set_data_bth">Установить дату</string>
+    <string name="exit">Выход</string>
 </resources>
