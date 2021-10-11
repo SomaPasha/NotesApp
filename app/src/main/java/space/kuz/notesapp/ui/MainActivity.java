@@ -42,6 +42,7 @@ import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.domain.NotesRepository;
 import space.kuz.notesapp.fragment.BasketFragment;
 import space.kuz.notesapp.fragment.EditNoteFragment;
+import space.kuz.notesapp.fragment.ExitDialogFragment;
 import space.kuz.notesapp.fragment.ListNoteFragment;
 import space.kuz.notesapp.fragment.PersonFragment;
 import space.kuz.notesapp.fragment.SettingFragment;
@@ -220,7 +221,9 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
                 return true;
             }
             case R.id.button_exit: {
-                android.os.Process.killProcess(android.os.Process.myPid());
+                exitApplication();
+               // android.os.Process.killProcess(android.os.Process.myPid());
+                return true;
             }
             case R.id.save_note_item: {
                 openScreenPostSave();
@@ -230,6 +233,15 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
                 return super.onOptionsItemSelected(item);
             }
         }
+    }
+
+    private void exitApplication() {
+        ExitDialogFragment exitDialogFragment = new ExitDialogFragment();
+     //   exitDialogFragment.dismiss();
+        exitDialogFragment.show(getSupportFragmentManager(),null);
+
+       // Toast.makeText(this, "Приложение закрыто", Toast.LENGTH_SHORT).show();
+       // finish();
     }
 
     @Override

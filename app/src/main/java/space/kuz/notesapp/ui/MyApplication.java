@@ -7,7 +7,7 @@ import android.widget.Toast;
 public class MyApplication extends Application {
     @Override
     public void onTerminate() {
-        Toast.makeText(this, "Приложение закрыто", Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(this, "Приложение закрыто", Toast.LENGTH_SHORT).show();
         super.onTerminate();
     }
 

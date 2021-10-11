@@ -20,4 +20,9 @@
     <string name="set_time_bth">Set time</string>
     <string name="set_data_bth">Set data</string>
     <string name="exit">Exit</string>
+    <string name="questionExit">Your real have exit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel">Cancel</string>
+    <string name="appClose">Application close</string>
 </resources>
