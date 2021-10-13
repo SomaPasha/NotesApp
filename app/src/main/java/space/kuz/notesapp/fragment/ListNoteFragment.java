@@ -1,6 +1,7 @@
 package space.kuz.notesapp.fragment;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.google.android.material.appbar.MaterialToolbar;
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.ui.MainActivity;
+import space.kuz.notesapp.ui.MyApplication;
 
 public class ListNoteFragment extends Fragment  {
     private Controller controller;
@@ -32,14 +34,17 @@ public class ListNoteFragment extends Fragment  {
     private Note note;
     private Subscrite subscrite= new Subscrite() {
         @Override
-        public void setNewMessage(String message) {
-            setMessage(message);
+        public void setNewMessage(Note note) {
+            setMessage(note);
         }
     };
 
-    private void setMessage(String message) {
-        textViewHead = ((MainActivity)requireActivity()).findViewById(R.id.text_view_head);
-      textViewHead.setText(message);
+    private void setMessage(Note note){
+     //   textViewHead = ((MainActivity)requireActivity()).findViewById(R.id.text_view_head);
+        ((MainActivity)requireActivity()).getApp().getNotesRepository().updateNote(note.getId(), note);
+        ((MainActivity)requireActivity()).adapter.setData(
+                ((MainActivity)requireActivity()).getApp().getNotesRepository().getNotes());
+       // ((MainActivity)requireActivity()).initRecyclerView();
     }
 
     @Override
@@ -116,7 +121,7 @@ public class ListNoteFragment extends Fragment  {
         void  unsubscribe(Subscrite subscrite);
     }
     public interface Subscrite {
-        void setNewMessage(String message);
+        void setNewMessage(Note note);
             }
     public static ListNoteFragment newInstance(Note note){
         ListNoteFragment fragment = new ListNoteFragment();

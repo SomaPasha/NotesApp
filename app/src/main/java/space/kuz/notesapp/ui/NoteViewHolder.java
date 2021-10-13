@@ -21,7 +21,6 @@ public class NoteViewHolder extends RecyclerView.ViewHolder {
     private TextView dataTextView = itemView.findViewById(R.id.text_view_data);
     private Note note;
 
-
     public NoteViewHolder(@NonNull ViewGroup parent, NotesAdapter.onItemClickListener listener, NotesAdapter.onItemLongClickListener listenerLong) {
         super(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false));
         itemView.setOnClickListener(v -> listener.onItemClick(note));

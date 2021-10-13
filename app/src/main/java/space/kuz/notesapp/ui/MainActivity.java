@@ -59,13 +59,14 @@ import static space.kuz.notesapp.CONSTANT.Constant.positioN;
 public class MainActivity extends AppCompatActivity implements  ListNoteFragment.Controller,
         EditNoteFragment.Controller  {
     private BottomNavigationView bottomNavigationView;
+    private Note noteNewPod ;
     private Map<Integer,Fragment> fragmentMap = new HashMap<>();
 
     private RecyclerView recyclerView;
     private Note noteNull = new Note();
     private Note noteNew = new Note();
 
-    private NotesAdapter adapter = new NotesAdapter();
+    public NotesAdapter adapter = new NotesAdapter();
     private EditText headEditText;
     private EditText descriptionEditText;
     private String dataSave;
@@ -159,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
             onItemClick(noteNew);
             }
     }
-private  MyApplication getApp(){
+public MyApplication getApp(){
         return  (MyApplication) getApplication();
 }
 
@@ -244,6 +245,7 @@ private  MyApplication getApp(){
         ExitDialogFragment exitDialogFragment = new ExitDialogFragment();
      //   exitDialogFragment.dismiss();
         exitDialogFragment.show(getSupportFragmentManager(),null);
+
 
        // Toast.makeText(this, "Приложение закрыто", Toast.LENGTH_SHORT).show();
        // finish();
@@ -377,9 +379,21 @@ private  MyApplication getApp(){
 
             }
 
-            @Override
+       @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-            notifySubscribers(s.toString());
+             //   sumDataAndTime();
+              //  Note note = new Note();
+               // note.setId(positioN + 1);
+               // note.setDate(dataSave);
+               // note.setHead(s.toString());
+           sumDataAndTime();
+           noteNewPod = new Note(s.toString(),
+                   descriptionEditText.getText().toString(),
+                   dataSave);
+           nullDataTime();
+           noteNewPod.setId(positioN + 1);
+            notifySubscribers(noteNewPod);
+
             }
 
             @Override
@@ -388,12 +402,34 @@ private  MyApplication getApp(){
             }
         });
         descriptionEditText = findViewById(R.id.description_edit_text);
+        descriptionEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sumDataAndTime();
+                noteNewPod = new Note(headEditText.getText().toString(),
+                       s.toString(),
+                        dataSave);
+                nullDataTime();
+                noteNewPod.setId(positioN + 1);
+                notifySubscribers(noteNewPod);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         dataTextView = findViewById(R.id.data_text_view_create_note);
     }
 
-    private void notifySubscribers(String message) {
+    private void notifySubscribers(Note note) {
         for (ListNoteFragment.Subscrite subscrite : subscriteList) {
-            subscrite.setNewMessage(message);
+            subscrite.setNewMessage(note);
         }
     }
 

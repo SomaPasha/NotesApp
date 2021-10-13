@@ -37,8 +37,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NoteViewHolder> /* implem
     public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
         holder.bind(getItem(position));
     }
-
-    private Note getItem(Integer position){
+    public Note getItem(Integer position){
         return  data.get(position);
     }
 
