@@ -18,6 +18,8 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.TestLooperManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,8 +33,11 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -251,6 +256,18 @@ private  MyApplication getApp(){
             scrollRecyclerView();
         }
     }
+    private List<ListNoteFragment.Subscrite> subscriteList=new ArrayList<>();
+
+    @Override
+    public void subscribe(ListNoteFragment.Subscrite subscrite) {
+        subscriteList.add(subscrite);
+    }
+
+    @Override
+    public void unsubscribe(ListNoteFragment.Subscrite subscrite) {
+        subscriteList.remove(subscrite);
+
+    }
 
     @Override
     public void openEditNote() {
@@ -354,8 +371,30 @@ private  MyApplication getApp(){
 
     private void initEditText() {
         headEditText = findViewById(R.id.head_edit_text);
+        headEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            notifySubscribers(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         descriptionEditText = findViewById(R.id.description_edit_text);
         dataTextView = findViewById(R.id.data_text_view_create_note);
+    }
+
+    private void notifySubscribers(String message) {
+        for (ListNoteFragment.Subscrite subscrite : subscriteList) {
+            subscrite.setNewMessage(message);
+        }
     }
 
     public void initRecyclerView() {

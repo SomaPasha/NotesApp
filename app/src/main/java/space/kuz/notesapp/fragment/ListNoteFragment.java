@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -25,9 +26,21 @@ import space.kuz.notesapp.ui.MainActivity;
 
 public class ListNoteFragment extends Fragment  {
     private Controller controller;
+    private TextView textViewHead;
     private MaterialToolbar toolbar;
     private static final String ARG_NOTE_LIST = "NOTE_LIST";
     private Note note;
+    private Subscrite subscrite= new Subscrite() {
+        @Override
+        public void setNewMessage(String message) {
+            setMessage(message);
+        }
+    };
+
+    private void setMessage(String message) {
+        textViewHead = ((MainActivity)requireActivity()).findViewById(R.id.text_view_head);
+      textViewHead.setText(message);
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -60,12 +73,14 @@ public class ListNoteFragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_note_list,container,false);
+       // binding =FragmentM
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getController().subscribe(subscrite);
         Bundle bundle = getArguments();
         if(bundle!=null){
             note = bundle.getParcelable(ARG_NOTE_LIST);
@@ -97,14 +112,24 @@ public class ListNoteFragment extends Fragment  {
 
     public interface Controller{
         void openListNote();
+        void  subscribe(Subscrite subscrite);
+        void  unsubscribe(Subscrite subscrite);
     }
-
+    public interface Subscrite {
+        void setNewMessage(String message);
+            }
     public static ListNoteFragment newInstance(Note note){
         ListNoteFragment fragment = new ListNoteFragment();
         Bundle  bundle = new Bundle();
         bundle.putParcelable(ARG_NOTE_LIST,note);
         fragment.setArguments(bundle);
         return fragment;
+    }
+
+    @Override
+    public void onDestroyView() {
+        getController().unsubscribe(subscrite);
+        super.onDestroyView();
     }
 
     @Override
