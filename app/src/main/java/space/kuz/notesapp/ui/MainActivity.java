@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     private RecyclerView recyclerView;
     private Note noteNull = new Note();
     private Note noteNew = new Note();
-    private NotesRepository notesRepository = new NotesRepositoryImplementation();
+
     private NotesAdapter adapter = new NotesAdapter();
     private EditText headEditText;
     private EditText descriptionEditText;
@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     TextView setTimeTextView;
    Button buttonData;
    Button buttonTime;
-  // Button buttonExit;
     int mYear, mMonth, mDay, mHour,mMinute;
 
     private int position = 0;
@@ -82,13 +81,10 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        createTestNotesRepository();
+        ((MyApplication) getApplication()).createTestNotesRepository();
         if (savedInstanceState == null) {
             oneOpenFragment();
         }
-
-        //buttonExit = findViewById(R.id.button_exit);
-     //   buttonExit.setOnClickListener(v -> android.os.Process.killProcess(android.os.Process.myPid()));
     }
 
     private void initDataPicketDialog() {
@@ -151,12 +147,16 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     }
     private void onContextItemClick(@NonNull MenuItem item){
         if(item.getItemId()==R.id.delete_item_menu){
-        notesRepository.deleteNote(noteNew.getId());
-        adapter.setData(notesRepository.getNotes());
+
+            getApp().getNotesRepository().deleteNote(noteNew.getId());
+        adapter.setData( getApp().getNotesRepository().getNotes());
         } else if (item.getItemId()==R.id.redact_item_menu){
             onItemClick(noteNew);
             }
     }
+private  MyApplication getApp(){
+        return  (MyApplication) getApplication();
+}
 
     private void initNavigationView() {
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -270,31 +270,13 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
         super.onDestroy();
     }
 
-    private void createTestNotesRepository() {
-        notesRepository.createNote(new Note("Заметка № 1", "Пойти в учить", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 2", "Пойти в школу", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 3", "Пойти на работу", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 4", "Пойти найти друга", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 5", "Пойти играть в баскетбол", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 6", "Пойти выучить английский", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 7", "Сходить в отпуск", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 8", "Найти себя", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 9", "Не переставать верить в себя", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 10", "Не переставать верить в других", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 11", "Найти себя", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 12", "Не переставать верить в себя", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 13", "Не переставать верить в других", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 14", "Найти себя", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 15", "Не переставать верить в себя", "12.09.2012 года."));
-        notesRepository.createNote(new Note("Заметка № 16", "Не переставать верить в других", "12.09.2012 года."));
 
-    }
 
     private void oneOpenFragment() {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_edit, EditNoteFragment.newInstance(notesRepository.getNotes().get(positioN)))
+                    .replace(R.id.fragment_edit, EditNoteFragment.newInstance(  getApp().getNotesRepository().getNotes().get(positioN)))
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .addToBackStack(null)
                     .commit();
@@ -361,12 +343,12 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     }
 
     public void createNoteActivity(Note note) {
-        notesRepository.createNote(new Note(note.getHead(), note.getDescription(), note.getDate()));
+       getApp().getNotesRepository().createNote(new Note(note.getHead(), note.getDescription(), note.getDate()));
 
     }
 
     public void updateNoteActivity(Note note) {
-        notesRepository.updateNote(note.getId(), note);
+        getApp().getNotesRepository().updateNote(note.getId(), note);
 
     }
 
@@ -381,7 +363,7 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-        adapter.setData(notesRepository.getNotes());
+        adapter.setData(((MyApplication) getApplication()).getNotesRepository().getNotes());
         adapter.setOnItemClickListener(this::onItemClick);
         adapter.setOnItemLongClickListener(this::onItemLongClick);
     }

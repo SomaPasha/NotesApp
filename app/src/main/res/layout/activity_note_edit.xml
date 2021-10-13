@@ -65,7 +65,7 @@
                 android:text="@string/name_data_text"
                 android:textSize="@dimen/description_text_size" />
             <TextView
-                android:id="@+id/text_view_set_data"
+                    android:id="@+id/text_view_set_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
