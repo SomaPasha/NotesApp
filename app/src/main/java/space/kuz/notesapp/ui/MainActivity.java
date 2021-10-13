@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ((MyApplication) getApplication()).createTestNotesRepository();
+       getApp().createTestNotesRepository();
         if (savedInstanceState == null) {
             oneOpenFragment();
         }
@@ -450,7 +450,7 @@ public MyApplication getApp(){
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(adapter);
-        adapter.setData(((MyApplication) getApplication()).getNotesRepository().getNotes());
+        adapter.setData(getApp().getNotesRepository().getNotes());
         adapter.setOnItemClickListener(this::onItemClick);
         adapter.setOnItemLongClickListener(this::onItemLongClick);
     }
