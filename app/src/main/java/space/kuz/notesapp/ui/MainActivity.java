@@ -18,6 +18,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.TestLooperManager;
+import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -120,6 +121,12 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 dataSave = convertWriteData(dayOfMonth,month+1,year);
                 setDataTextView.setText(dataSave);
+                if(timeSave == null){ timeSave =convertWriteTime(Calendar.getInstance().get(Calendar.HOUR),Calendar.getInstance().get(Calendar.MINUTE)) ;}
+                noteNewPod = new Note(headEditText.getText().toString(),
+                        descriptionEditText.getText().toString(),
+                        dataSave+" " +timeSave);
+                noteNewPod.setId(positioN + 1);
+                notifySubscribers(noteNewPod);
             }
         } , mYear,mMonth,mDay);
     datePickerDialog.show();
@@ -135,6 +142,12 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                timeSave = convertWriteTime(hourOfDay,minute);
                setTimeTextView.setText(timeSave);
+                if (dataSave == null){ dataSave = convertWriteData(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+1,Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.YEAR));}
+                noteNewPod = new Note(headEditText.getText().toString(),
+                        descriptionEditText.getText().toString(),
+                        dataSave+" " +timeSave);
+                noteNewPod.setId(positioN + 1);
+                notifySubscribers(noteNewPod);
             }
         },mHour, mMinute, false);
         timePickerDialog.show();
@@ -243,12 +256,7 @@ public MyApplication getApp(){
 
     private void exitApplication() {
         ExitDialogFragment exitDialogFragment = new ExitDialogFragment();
-     //   exitDialogFragment.dismiss();
         exitDialogFragment.show(getSupportFragmentManager(),null);
-
-
-       // Toast.makeText(this, "Приложение закрыто", Toast.LENGTH_SHORT).show();
-       // finish();
     }
 
     @Override
@@ -334,7 +342,7 @@ public MyApplication getApp(){
     private void sumDataAndTime() {
         if (dataSave == null){ dataSave = convertWriteData(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+1,Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.YEAR));}
         if(timeSave == null){ timeSave =convertWriteTime(Calendar.getInstance().get(Calendar.HOUR),Calendar.getInstance().get(Calendar.MINUTE)) ;}
-        dataSave= dataSave+" "+timeSave;
+        dataSave=dataSave+timeSave;
     }
 
     public void openNoteScreen(Note note) {
@@ -381,19 +389,7 @@ public MyApplication getApp(){
 
        @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-             //   sumDataAndTime();
-              //  Note note = new Note();
-               // note.setId(positioN + 1);
-               // note.setDate(dataSave);
-               // note.setHead(s.toString());
-           sumDataAndTime();
-           noteNewPod = new Note(s.toString(),
-                   descriptionEditText.getText().toString(),
-                   dataSave);
-           nullDataTime();
-           noteNewPod.setId(positioN + 1);
-            notifySubscribers(noteNewPod);
-
+                changeHead(s);
             }
 
             @Override
@@ -410,13 +406,7 @@ public MyApplication getApp(){
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                sumDataAndTime();
-                noteNewPod = new Note(headEditText.getText().toString(),
-                       s.toString(),
-                        dataSave);
-                nullDataTime();
-                noteNewPod.setId(positioN + 1);
-                notifySubscribers(noteNewPod);
+                changeDescription(s);
             }
 
             @Override
@@ -425,6 +415,28 @@ public MyApplication getApp(){
             }
         });
         dataTextView = findViewById(R.id.data_text_view_create_note);
+    }
+
+    private String savedataAndTime(){
+        if (dataSave == null){ dataSave = convertWriteData(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)+1,Calendar.getInstance().get(Calendar.MONTH),Calendar.getInstance().get(Calendar.YEAR));}
+        if(timeSave == null){ timeSave =convertWriteTime(Calendar.getInstance().get(Calendar.HOUR),Calendar.getInstance().get(Calendar.MINUTE)) ;}
+        return dataSave+" " +timeSave;
+    }
+    private void changeDescription(CharSequence s) {
+        noteNewPod = new Note(headEditText.getText().toString(),
+                s.toString(),
+                savedataAndTime());
+        noteNewPod.setId(positioN + 1);
+        notifySubscribers(noteNewPod);
+    }
+
+    private void changeHead(CharSequence s) {
+        noteNewPod = new Note(s.toString(),
+                descriptionEditText.getText().toString(),
+                savedataAndTime());
+        noteNewPod.setId(positioN + 1);
+        notifySubscribers(noteNewPod);
+
     }
 
     private void notifySubscribers(Note note) {
