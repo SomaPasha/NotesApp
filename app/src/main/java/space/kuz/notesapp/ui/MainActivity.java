@@ -11,14 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.app.Application;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.TestLooperManager;
-import android.os.strictmode.SqliteObjectLeakedViolation;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.ContextMenu;
@@ -29,32 +26,27 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
-import space.kuz.notesapp.domain.NotesRepository;
 import space.kuz.notesapp.fragment.BasketFragment;
 import space.kuz.notesapp.fragment.EditNoteFragment;
 import space.kuz.notesapp.fragment.ExitDialogFragment;
 import space.kuz.notesapp.fragment.ListNoteFragment;
 import space.kuz.notesapp.fragment.PersonFragment;
 import space.kuz.notesapp.fragment.SettingFragment;
-import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
-import static space.kuz.notesapp.CONSTANT.Constant.positioN;
+import static space.kuz.notesapp.constant.Constant.positioN;
 
 @SuppressLint("RestrictedApi")
 public class MainActivity extends AppCompatActivity implements  ListNoteFragment.Controller,
@@ -97,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements  ListNoteFragment
     private void initDataPicketDialog() {
         setDataTextView = findViewById(R.id.text_view_set_data);
         setTimeTextView = findViewById(R.id.text_view_set_time);
-
         buttonData= findViewById(R.id.button_set_data);
         buttonTime = findViewById(R.id.button_set_time);
         initBottomNavigationView();

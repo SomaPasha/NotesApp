@@ -13,13 +13,12 @@ import android.widget.TextView;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
-import java.util.Calendar;
 import java.util.regex.Pattern;
 
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 
-import static space.kuz.notesapp.CONSTANT.Constant.EDIT_NOTE;
+import static space.kuz.notesapp.constant.Constant.EDIT_NOTE;
 
 public class NoteEditActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;

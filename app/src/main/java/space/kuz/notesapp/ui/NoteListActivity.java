@@ -2,7 +2,6 @@ package space.kuz.notesapp.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,9 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -31,7 +27,7 @@ import space.kuz.notesapp.domain.NotesRepository;
 import space.kuz.notesapp.fragment.EditNoteFragment;
 import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
-import static space.kuz.notesapp.CONSTANT.Constant.EDIT_NOTE;
+import static space.kuz.notesapp.constant.Constant.EDIT_NOTE;
 //import static space.kuz.notesapp.CONSTANT.Constant.WRITE_TXT;
 
 public class NoteListActivity extends AppCompatActivity {

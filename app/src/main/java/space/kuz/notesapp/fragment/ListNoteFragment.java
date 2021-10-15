@@ -102,7 +102,7 @@ public class ListNoteFragment extends Fragment  {
         } else {
             ((MainActivity)requireActivity()).updateNoteActivity(note);
         }
-        ((MainActivity)requireActivity()).initRecyclerView();
+      //((MainActivity)requireActivity()).initRecyclerView();
 
     }
 
