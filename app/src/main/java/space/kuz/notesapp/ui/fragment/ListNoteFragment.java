@@ -1,20 +1,14 @@
-package space.kuz.notesapp.fragment;
+package space.kuz.notesapp.ui.fragment;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
-import androidx.activity.result.ActivityResultCaller;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -24,7 +18,6 @@ import com.google.android.material.appbar.MaterialToolbar;
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.ui.MainActivity;
-import space.kuz.notesapp.ui.MyApplication;
 
 public class ListNoteFragment extends Fragment  {
     private Controller controller;

@@ -39,12 +39,12 @@ import java.util.Objects;
 
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
-import space.kuz.notesapp.fragment.BasketFragment;
-import space.kuz.notesapp.fragment.EditNoteFragment;
-import space.kuz.notesapp.fragment.ExitDialogFragment;
-import space.kuz.notesapp.fragment.ListNoteFragment;
-import space.kuz.notesapp.fragment.PersonFragment;
-import space.kuz.notesapp.fragment.SettingFragment;
+import space.kuz.notesapp.ui.fragment.BasketFragment;
+import space.kuz.notesapp.ui.fragment.EditNoteFragment;
+import space.kuz.notesapp.ui.fragment.ExitDialogFragment;
+import space.kuz.notesapp.ui.fragment.ListNoteFragment;
+import space.kuz.notesapp.ui.fragment.PersonFragment;
+import space.kuz.notesapp.ui.fragment.SettingFragment;
 
 import static space.kuz.notesapp.constant.Constant.positioN;
 

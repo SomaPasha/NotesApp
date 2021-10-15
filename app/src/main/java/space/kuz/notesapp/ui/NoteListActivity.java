@@ -24,7 +24,7 @@ import java.io.IOException;
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.domain.NotesRepository;
-import space.kuz.notesapp.fragment.EditNoteFragment;
+import space.kuz.notesapp.ui.fragment.EditNoteFragment;
 import space.kuz.notesapp.implementation.NotesRepositoryImplementation;
 
 import static space.kuz.notesapp.constant.Constant.EDIT_NOTE;

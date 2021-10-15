@@ -1,4 +1,4 @@
-package space.kuz.notesapp.fragment;
+package space.kuz.notesapp.ui.fragment;
 
 import android.os.Bundle;
 
@@ -15,10 +15,10 @@ import space.kuz.notesapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link BasketFragment#newInstance} factory method to
+ * Use the {@link PersonFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BasketFragment extends Fragment {
+public class PersonFragment extends Fragment {
     private EditText editText;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,7 +29,7 @@ public class BasketFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public BasketFragment() {
+    public PersonFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +39,11 @@ public class BasketFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BasketFragment.
+     * @return A new instance of fragment PersonFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BasketFragment newInstance(String param1, String param2) {
-        BasketFragment fragment = new BasketFragment();
+    public static PersonFragment newInstance(String param1, String param2) {
+        PersonFragment fragment = new PersonFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,12 +64,12 @@ public class BasketFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_basket, container, false);
+        return inflater.inflate(R.layout.fragment_person, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        editText = view.findViewById(R.id.fragment_basket_edit_text);
+        editText = view.findViewById(R.id.fragment_setting_edit_text);
         setRetainInstance(true);
         super.onViewCreated(view, savedInstanceState);
     }
