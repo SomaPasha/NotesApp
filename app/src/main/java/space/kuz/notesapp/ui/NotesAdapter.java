@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import space.kuz.notesapp.ItemTouchHelperAdapter;
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 

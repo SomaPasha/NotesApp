@@ -42,14 +42,14 @@ import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.ui.fragment.BasketFragment;
 import space.kuz.notesapp.ui.fragment.EditNoteFragment;
 import space.kuz.notesapp.ui.fragment.ExitDialogFragment;
-import space.kuz.notesapp.ui.fragment.ListNoteFragment;
+import space.kuz.notesapp.ui.fragment.ListNoteFragmentKotlin;
 import space.kuz.notesapp.ui.fragment.PersonFragment;
 import space.kuz.notesapp.ui.fragment.SettingFragment;
 
 import static space.kuz.notesapp.constant.Constant.positioN;
 
 @SuppressLint("RestrictedApi")
-public class MainActivity extends AppCompatActivity implements  ListNoteFragment.Controller,
+public class MainActivity extends AppCompatActivity implements  ListNoteFragmentKotlin.Controller,
         EditNoteFragment.Controller  {
     private BottomNavigationView bottomNavigationView;
     private Note noteNewPod ;
@@ -194,7 +194,7 @@ public MyApplication getApp(){
     }
 
     private void initBottomNavigationView() {
-        fragmentMap.put(R.id.nav_note, new ListNoteFragment() );
+        fragmentMap.put(R.id.nav_note, new ListNoteFragmentKotlin() );
         fragmentMap.put(R.id.nav_basket, new BasketFragment() );
         fragmentMap.put(R.id.nav_person, new PersonFragment() );
         bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_nav_view) ;
@@ -203,7 +203,7 @@ public MyApplication getApp(){
                     getSupportFragmentManager().popBackStack();
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .add(R.id.fragment_list, new ListNoteFragment())
+                            .add(R.id.fragment_list, new ListNoteFragmentKotlin())
                             .commit();
 
                 } else {
@@ -257,15 +257,15 @@ public MyApplication getApp(){
             scrollRecyclerView();
         }
     }
-    private List<ListNoteFragment.Subscrite> subscriteList=new ArrayList<>();
+    private List<ListNoteFragmentKotlin.Subscrite> subscriteList=new ArrayList<>();
 
     @Override
-    public void subscribe(ListNoteFragment.Subscrite subscrite) {
+    public void subscribe(ListNoteFragmentKotlin.Subscrite subscrite) {
         subscriteList.add(subscrite);
     }
 
     @Override
-    public void unsubscribe(ListNoteFragment.Subscrite subscrite) {
+    public void unsubscribe(ListNoteFragmentKotlin.Subscrite subscrite) {
         subscriteList.remove(subscrite);
 
     }
@@ -302,7 +302,7 @@ public MyApplication getApp(){
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragment_list, new ListNoteFragment())
+                    .add(R.id.fragment_list, new ListNoteFragmentKotlin())
                     .commit();
         }
     }
@@ -311,7 +311,7 @@ public MyApplication getApp(){
         getSupportFragmentManager().popBackStack();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_list, ListNoteFragment.newInstance(createNote()))
+                .add(R.id.fragment_list, ListNoteFragmentKotlin.newInstance(createNote()))
                 .commit();
     }
 
@@ -431,7 +431,7 @@ public MyApplication getApp(){
     }
 
     private void notifySubscribers(Note note) {
-        for (ListNoteFragment.Subscrite subscrite : subscriteList) {
+        for (ListNoteFragmentKotlin.Subscrite subscrite : subscriteList) {
             subscrite.setNewMessage(note);
         }
     }
