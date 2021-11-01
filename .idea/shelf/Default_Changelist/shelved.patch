@@ -1,0 +1,16 @@
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">\"NotesApp\"</string>\r\n    <string name=\"create_note\">Create note</string>\r\n    <string name=\"title\">Title</string>\r\n    <string name=\"description\">Description</string>\r\n    <string name=\"data_text\">\"Past date: \"</string>\r\n    <string name=\"name_data_text\">\"Set date: \"</string>\r\n    <string name=\"year_text\">\" year.\"</string>\r\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision fa6a4438a4fb349fed66aa247b685b7d38bbd7d0)
++++ app/src/main/res/values/strings.xml	(date 1633202067153)
+@@ -1,5 +1,5 @@
+ <resources>
+-    <string name="app_name">"NotesApp"</string>
++    <string name="app_name">NotesApp</string>
+     <string name="create_note">Create note</string>
+     <string name="title">Title</string>
+     <string name="description">Description</string>

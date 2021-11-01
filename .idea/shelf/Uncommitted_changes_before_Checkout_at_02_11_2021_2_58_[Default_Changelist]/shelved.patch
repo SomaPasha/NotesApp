@@ -1,0 +1,32 @@
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\nbuildscript {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n    }\r\n    dependencies {\r\n        classpath \"com.android.tools.build:gradle:4.1.3\"\r\n\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/build.gradle b/build.gradle
+--- a/build.gradle	(revision 327c6edf0702fdc4ce5c9fd7f79b08c652c4f592)
++++ b/build.gradle	(date 1635803728224)
+@@ -21,4 +21,20 @@
+ 
+ task clean(type: Delete) {
+     delete rootProject.buildDir
++}
++plugins {
++    id 'org.jetbrains.kotlin.jvm' version '1.5.31'
++}
++dependencies {
++    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
++}
++compileKotlin {
++    kotlinOptions {
++        jvmTarget = "1.8"
++    }
++}
++compileTestKotlin {
++    kotlinOptions {
++        jvmTarget = "1.8"
++    }
+ }
+\ No newline at end of file
