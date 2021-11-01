@@ -40,7 +40,7 @@ import java.util.Objects;
 import space.kuz.notesapp.R;
 import space.kuz.notesapp.domain.Note;
 import space.kuz.notesapp.ui.fragment.BasketFragment;
-import space.kuz.notesapp.ui.fragment.EditNoteFragment;
+import space.kuz.notesapp.ui.fragment.EditNoteFragmentKotlin;
 import space.kuz.notesapp.ui.fragment.ExitDialogFragment;
 import space.kuz.notesapp.ui.fragment.ListNoteFragmentKotlin;
 import space.kuz.notesapp.ui.fragment.PersonFragment;
@@ -50,7 +50,7 @@ import static space.kuz.notesapp.constant.Constant.positioN;
 
 @SuppressLint("RestrictedApi")
 public class MainActivity extends AppCompatActivity implements  ListNoteFragmentKotlin.Controller,
-        EditNoteFragment.Controller  {
+        EditNoteFragmentKotlin.Controller  {
     private BottomNavigationView bottomNavigationView;
     private Note noteNewPod ;
     private Map<Integer,Fragment> fragmentMap = new HashMap<>();
@@ -294,7 +294,7 @@ public MyApplication getApp(){
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_edit, EditNoteFragment.newInstance(  getApp().getNotesRepository().getNotes().get(positioN)))
+                    .replace(R.id.fragment_edit, EditNoteFragmentKotlin.newInstance(  getApp().getNotesRepository().getNotes().get(positioN)))
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .addToBackStack(null)
                     .commit();
@@ -346,14 +346,14 @@ public MyApplication getApp(){
             FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager
                     .beginTransaction()
-                    .replace(R.id.fragment_edit, EditNoteFragment.newInstance(note))
+                    .replace(R.id.fragment_edit, EditNoteFragmentKotlin.newInstance(note))
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .addToBackStack(null)
                     .commit();
         } else {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.fragment_edit, EditNoteFragment.newInstance(note))
+                    .add(R.id.fragment_edit, EditNoteFragmentKotlin.newInstance(note))
                     .addToBackStack(null)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit();

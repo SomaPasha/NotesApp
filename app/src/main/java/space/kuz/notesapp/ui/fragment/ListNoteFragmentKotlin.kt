@@ -22,11 +22,9 @@ class ListNoteFragmentKotlin : Fragment() {
     }
 
     private fun setMessage(note: Note) {
-        //   textViewHead = ((MainActivity)requireActivity()).findViewById(R.id.text_view_head);
         (requireActivity() as MainActivity).app.notesRepository.updateNote(note.id, note)
         (requireActivity() as MainActivity).adapter.setData(
                 (requireActivity() as MainActivity).app.notesRepository.notes)
-        // ((MainActivity)requireActivity()).initRecyclerView();
     }
 
     override fun onAttach(context: Context) {
@@ -68,7 +66,7 @@ class ListNoteFragmentKotlin : Fragment() {
     }
 
     private fun saveNote() {
-        if (note!!.id == 0) {
+        if (note.id == 0) {
             (requireActivity() as MainActivity).createNoteActivity(note)
         } else {
             (requireActivity() as MainActivity).updateNoteActivity(note)

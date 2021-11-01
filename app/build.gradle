@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
 }
-
+apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
